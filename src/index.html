@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Angular2 application</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="main.css" media="screen" title="no title" charset="utf-8">
+    <!-- 1. Load SystemJS -->
+    <script src="jspm_packages/system.js"></script>
+    <!-- 2. Configure SystemJS -->
+    <script src="config.js"></script>
+    <!-- 3. Load application -->
+    <script>
+        System.import( 'main' )
+        .catch( function( error ) {
+            console.log( error )
+        })
+    </script>
+    <!-- Standalone app file (sfx) -->
+    <!-- <script src="public/build.js" charset="utf-8"></script> -->
+</head>
+<body>
+    <!-- Facebook SDK -->
+    <script>
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId      : '1225fehe',
+          xfbml      : true,
+          version    : 'v2.6'
+        });
+
+        FB.login( function( response ) {
+            console.log( response );
+        });
+      };
+
+      (function(d, s, id){
+         var js, fjs = d.getElementsByTagName(s)[0];
+         if (d.getElementById(id)) {return;}
+         js = d.createElement(s); js.id = id;
+         js.src = "//connect.facebook.net/en_US/sdk.js";
+         fjs.parentNode.insertBefore(js, fjs);
+       }(document, 'script', 'facebook-jssdk'));
+    </script>
+
+    <nav class="ui secondary menu" id="navbar-top">
+        <a class="item item-icon">
+            <i class="home icon"></i>
+        </a>
+        <a class="item">Messages</a>
+        <a class="item active">Friends</a>
+        <div class="item">
+            <div class="ui icon input">
+                <input type="text" placeholder="Search...">
+                <i class="search link icon"></i>
+            </div>
+        </div>
+        <div class="right menu">
+            <a class="ui item item-icon">Log Out</a>
+        </div>
+    </nav>
+
+    <!-- Application view -->
+    <app></app>
+</body>
+</html>
