@@ -1,0 +1,6 @@
+node_modules/
+public/
+typings/
+*.log
+.DS_Store
+.sass-cache/
