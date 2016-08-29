@@ -1,15 +1,9 @@
 import { Injectable } from '@angular/core'
 
-import { FirebaseService } from './firebase.service'
-
 import { Quizz } from './../entities/quizz'
 
 @Injectable()
 export class QuizzService {
-    constructor(
-        private firebase: FirebaseService
-    ) { }
-
     getQuizz(): Promise<Quizz> {
         return new Promise( ( resolve, reject ) => {
             firebase

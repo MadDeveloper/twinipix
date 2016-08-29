@@ -1,6 +1,5 @@
 import { Injectable }   from '@angular/core'
 
-import { UserService }      from './user.service'
 import { FacebookService }  from './facebook.service'
 import { StorageService }   from './storage.service'
 import { QuizzService }     from './quizz.service'
@@ -15,7 +14,6 @@ export class RankingService {
     private dayBeforeExpiration: number = 5
 
     constructor(
-        private user: UserService,
         private facebook: FacebookService,
         private storage: StorageService,
         private quizz: QuizzService
