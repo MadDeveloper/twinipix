@@ -1,0 +1,52 @@
+@import '../../styles/conf';
+
+#home {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: absolute;
+    z-index: 100;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    padding: 20px 10px;
+    background: #2585ea; /* Old browsers */
+    background: -moz-linear-gradient(45deg,  #2585ea 0%, #104192 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(45deg,  #2585ea 0%,#104192 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(45deg,  #2585ea 0%,#104192 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2585ea', endColorstr='#104192',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+    color: white;
+
+    a {
+        color: white;
+
+        &:hover {
+            cursor: pointer;
+            color: rgba( 255, 255, 255, .7 );
+        }
+    }
+
+    #home-main-text {
+        margin-top: 50px;
+    }
+
+    button.button.login {
+        border-radius: 20px;
+        padding: 8px 0;
+        width: 250px;
+        font-size: 15px;
+        background-color: white;
+        border: none;
+        color: black;
+
+        &:hover {
+            cursor: pointer;
+            background-color: rgba( 255, 255, 255, .9 );
+        }
+        &:active {
+            background-color: rgba( 255, 255, 255, .7 );
+        }
+    }
+}

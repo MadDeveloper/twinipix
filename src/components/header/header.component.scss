@@ -1,0 +1,43 @@
+@import '../../styles/conf';
+
+#navbar-top {
+    .menu-flexbox {
+        & {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            width: $max-screen-body-width;
+            margin: auto;
+        }
+
+        @media all and(max-width: $max-smartphone-width) {
+            & {
+                width: 100%;
+            }
+        }
+
+        * {
+            color: white;
+        }
+
+        .item {
+            flex-grow: 1;
+            display: block;
+            text-align: center;
+            border-bottom: 3px solid transparent;
+
+            &:hover, &:active, &.active {
+                background-color: transparent;
+            }
+            &.active {
+                border-bottom: 3px solid white;
+                border-radius: initial;
+            }
+        }
+
+        .icon {
+            font-size: 20px;
+            margin: 0;
+        }
+    }
+}

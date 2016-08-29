@@ -1,0 +1,221 @@
+/*
+ * Displays
+ */
+.inline-block {
+    display: inline-block;
+}
+.display {
+    &.none {
+        display: none !important;
+    }
+    &.block {
+        display: block;
+    }
+    &.inline-block {
+        display: inline-block;
+    }
+    &.inline {
+        display: inline;
+    }
+}
+.flex {
+    display: flex !important;
+
+    &.space-between {
+        justify-content: space-between;
+    }
+    &.justify-center {
+        justify-content: center;
+    }
+    &.items-center {
+        align-items: center;
+    }
+    &.column {
+        flex-direction: column;
+    }
+}
+
+/*
+ * Floats
+ */
+.float {
+    &.left {
+        float: left;
+    }
+    &.right {
+        float: right;
+    }
+    &.clear {
+        clear: both;
+    }
+}
+
+/*
+ * Margins
+ */
+.margin {
+    &.top {
+        padding-top: 5px;
+    }
+    &.large {
+        &.top {
+            margin-top: 15px;
+        }
+        &.bottom {
+            margin-bottom: 15px;
+        }
+        &.right {
+            margin-right: 15px;
+        }
+        &.left {
+            margin-left: 15px;
+        }
+    }
+    &.bottom {
+        margin-bottom: 5px;
+    }
+    &.right {
+        margin-right: 5px;
+    }
+    &.left {
+        margin-left: 5px;
+    }
+    &.no-vertical {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+}
+
+/*
+ * Paddings
+ */
+.padding {
+    &.top {
+        padding-top: 5px;
+    }
+    &.large {
+        &.top {
+            padding-top: 15px;
+        }
+        &.bottom {
+            padding-bottom: 15px;
+        }
+        &.right {
+            padding-right: 15px;
+        }
+        &.left {
+            padding-left: 15px;
+        }
+    }
+    &.medium {
+        &.top {
+            padding-top: 10px;
+        }
+        &.bottom {
+            padding-bottom: 10px;
+        }
+    }
+    &.small {
+        &.top {
+            padding-top: 5px;
+        }
+        &.bottom {
+            padding-bottom: 5px;
+        }
+    }
+    &.bottom {
+        padding-bottom: 5px;
+    }
+    &.right {
+        padding-right: 5px;
+    }
+    &.left {
+        padding-left: 5px;
+    }
+    &.no-vertical {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+}
+
+/*
+ * Main padding
+ */
+.main-padding-vertical {
+    padding-top: $main-padding !important;
+    padding-bottom: $main-padding !important;
+}
+.main-padding-horizontal {
+    padding-left: $main-padding !important;
+    padding-right: $main-padding !important;
+}
+.main-margin-vertical {
+    margin-top: $main-padding !important;
+    margin-bottom: $main-padding !important;
+}
+.main-margin-horizontal {
+    margin-left: $main-padding !important;
+    margin-right: $main-padding !important;
+}
+
+/*
+ * Centers
+ */
+.text-center {
+    text-align: center;
+}
+.center {
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+
+/*
+ * Sizes
+ */
+.width {
+    &.max {
+        width: 100%;
+    }
+    &.three-quarters {
+        width: 75%;
+    }
+    &.half {
+        width: 50%;
+    }
+    &.two-third {
+        width: 66.6666%;
+    }
+    &.a-quarters {
+        width: 25%;
+    }
+    &.a-third {
+        width: 33.3333%;
+    }
+}
+
+/*
+ * Backgrounds
+ */
+.background {
+    &.white {
+        background-color: white;
+    }
+}
+
+/*
+ * Positions
+ */
+.relative {
+    position: relative;
+}
+.absolute {
+    position: absolute;
+}
+
+/*
+ * Cursors
+ */
+.clickable:hover {
+    cursor: pointer;
+}

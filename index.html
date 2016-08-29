@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <base href="/">
+    <meta charset="UTF-8">
+    <title>Twinipix</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="stylesheet" href="public/semantic/dist/semantic.min.css" media="screen" title="no title" charset="utf-8">
+    <link rel="stylesheet" href="public/main.css" media="screen" title="no title" charset="utf-8">
+
+    <!-- 1. Import libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="public/semantic/dist/semantic.min.js"></script>
+    <script src="node_modules/core-js/client/shim.min.js"></script>
+    <script src="node_modules/zone.js/dist/zone.js"></script>
+    <script src="node_modules/reflect-metadata/Reflect.js"></script>
+    <script src="node_modules/systemjs/dist/system.src.js"></script>
+
+    <!-- 2. Configure SystemJS -->
+    <script src="jspm.config.js"></script>
+
+    <!-- 3. Import and init Facebook SDK -->
+    <script>
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId      : '916365171808409',
+          status     : true,
+          xfbml      : true,
+          cookie     : true,
+          version    : 'v2.7'
+        });
+      };
+
+      (function(d, s, id){
+         var js, fjs = d.getElementsByTagName(s)[0];
+         if (d.getElementById(id)) {return;}
+         js = d.createElement(s); js.id = id;
+         js.src = "https://connect.facebook.net/en_US/sdk.js";
+         fjs.parentNode.insertBefore(js, fjs);
+       }(document, 'script', 'facebook-jssdk'));
+    </script>
+
+    <!-- 4. Import and init Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/3.3.0/firebase.js"></script>
+    <script>
+      var config = {
+        apiKey: "AIzaSyBMOvPjY6TgR2stHfun6t-C8i9JWsAiP1k",
+        authDomain: "twinipix-eaccb.firebaseapp.com",
+        databaseURL: "https://twinipix-eaccb.firebaseio.com",
+        storageBucket: "twinipix-eaccb.appspot.com"
+      };
+      firebase.initializeApp( config );
+    </script>
+
+    <!-- 5. Load application -->
+    <script>
+        System.import( 'public' )
+        .catch( function( error ) {
+            console.log( error );
+        });
+    </script>
+</head>
+<body>
+    <script>
+        function adaptSvgUrls() {
+            setTimeout( function() {
+                $( '.svg-path-url' ).each( function() {
+                    $( this ).attr( 'fill', 'url(' + window.location.pathname.substring( 1 ) + $( this ).attr( 'fill' ).replace( /url\(\w*/, '' ) )
+                })
+            }, 0 )
+        }
+    </script>
+
+    <!-- Application entry point -->
+    <app></app>
+</body>
+</html>

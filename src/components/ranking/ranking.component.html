@@ -1,0 +1,84 @@
+<div class="padding large top bottom right flex items-center justify-center">
+    <span class="margin large right">{{ 'ranking.friendsRemain' | translate }} {{ numberOfInvitableFriends() }} {{ 'ranking.friendsToTest' | translate }}</span>
+    <button class="button default"><i class="unhide icon"></i> {{ 'ranking.see' | translate }}</button>
+</div>
+
+<div class="ui middle aligned divided list large background white margin no-vertical main-padding-vertical main-padding-horizontal">
+  <!-- Friends -->
+  <div *ngFor="let friend of friends" class="item flex items-center space-between">
+    <div class="content identity clickable" (click)="gotoProfile( friend )">
+      <img class="ui avatar image" src="{{ friend.picture.data.url }}">
+      <span class="name">{{ friend.name }}</span>
+    </div>
+    <div *ngIf="100 == friend.correlation">
+        <img class="ui avatar image twin" src="/public/assets/images/logo.png">
+    </div>
+    <div *ngIf="null === friend.correlation || 100 > friend.correlation">
+        <div class="relative">
+            <div [ngClass]="setCircleProgressClasses( friend )">
+              <span>{{ null !== friend.correlation ? friend.correlation : '?' }} %</span>
+              <div class="slice">
+                <div class="bar"></div>
+                <div class="fill"></div>
+              </div>
+            </div>
+        </div>
+    </div>
+    <button (click)="invite( friend )" class="button default ranking-share"><i class="share alternate icon"></i> {{ 'button.share' | translate }}</button>
+  </div>
+
+  <!-- Invitable friends -->
+  <div *ngFor="let friend of invitableFriends" class="item flex items-center space-between">
+    <div class="content identity">
+      <img class="ui avatar image" src="{{ friend.picture.data.url }}">
+      <span class="name">{{ friend.name }}</span>
+    </div>
+    <div class="relative">
+        <div class="c100 p0 extra-small">
+          <span>? %</span>
+          <div class="slice">
+            <div class="bar"></div>
+            <div class="fill"></div>
+          </div>
+        </div>
+    </div>
+    <button (click)="invite( friend )" class="button important"><i class="plus icon"></i> {{ 'button.invite' | translate }}</button>
+  </div>
+
+  <!-- Loader -->
+    <div id="loader-ranking-item" class="item flex items-center justify-center display none">
+        <div class='uil-ripple-css' style='transform:scale(0.2);'>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+</div>
+
+<svg width="0" height="0">
+    <defs>
+        <linearGradient id="cl1" gradientUnits="objectBoundingBox" x1="0" y1="0" x2="1" y2="1">
+            <stop stop-color="#618099"/>
+            <stop offset="100%" stop-color="#8e6677"/>
+        </linearGradient>
+        <linearGradient id="cl2" gradientUnits="objectBoundingBox" x1="0" y1="0" x2="0" y2="1">
+            <stop stop-color="#8e6677"/>
+            <stop offset="100%" stop-color="#9b5e67"/>
+        </linearGradient>
+        <linearGradient id="cl3" gradientUnits="objectBoundingBox" x1="1" y1="0" x2="0" y2="1">
+            <stop stop-color="#9b5e67"/>
+            <stop offset="100%" stop-color="#9c787a"/>
+        </linearGradient>
+        <linearGradient id="cl4" gradientUnits="objectBoundingBox" x1="1" y1="1" x2="0" y2="0">
+            <stop stop-color="#9c787a"/>
+            <stop offset="100%" stop-color="#817a94"/>
+        </linearGradient>
+        <linearGradient id="cl5" gradientUnits="objectBoundingBox" x1="0" y1="1" x2="0" y2="0">
+            <stop stop-color="#817a94"/>
+            <stop offset="100%" stop-color="#498a98"/>
+        </linearGradient>
+        <linearGradient id="cl6" gradientUnits="objectBoundingBox" x1="0" y1="1" x2="1" y2="0">
+            <stop stop-color="#498a98"/>
+            <stop offset="100%" stop-color="#618099"/>
+        </linearGradient>
+    </defs>
+</svg>

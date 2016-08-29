@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Firebase test</title>
+</head>
+<body>
+    <button id="login-button">Log in</button>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.3.0/firebase.js"></script>
+    <script>
+      // Initialize Firebase
+      // TODO: Replace with your project's customized code snippet
+      var config = {
+        apiKey: "AIzaSyBMOvPjY6TgR2stHfun6t-C8i9JWsAiP1k",
+        authDomain: "twinipix-eaccb.firebaseapp.com",
+        databaseURL: "https://twinipix-eaccb.firebaseio.com",
+        storageBucket: "twinipix-eaccb.appspot.com"
+      };
+      firebase.initializeApp(config);
+
+      $( '#login-button' ).on( 'click', function() {
+        var provider = new firebase.auth.FacebookAuthProvider();
+        firebase.auth().signInWithRedirect(provider);
+        firebase.auth().getRedirectResult().then(function(result) {
+            console.log( 'success', result )
+          if (result.credential) {
+            // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+            var token = result.credential.accessToken;
+            // ...
+          }
+          // The signed-in user info.
+          var user = result.user;
+        }).catch(function(error) {
+            console.log( 'error', error )
+          // Handle Errors here.
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          // The email of the user's account used.
+          var email = error.email;
+          // The firebase.auth.AuthCredential type that was used.
+          var credential = error.credential;
+          // ...
+        });
+      })
+    </script>
+</body>
+</html>

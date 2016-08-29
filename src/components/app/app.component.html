@@ -1,0 +1,10 @@
+<!-- header component -->
+<header *ngIf="!isHomePage"></header>
+
+<!-- app component html template -->
+<main>
+    <router-outlet></router-outlet>
+</main>
+
+<!-- Footer component -->
+<footer [style.display]="userLiked || isHomePage ? 'none' : 'flex'"></footer>

@@ -1,6 +1,11 @@
 node_modules/
-public/
-typings/
+!/public/
+/public/*
+!/public/semantic/
+!/public/assets/
+!/typings/
+/typings/*
+!/typings/index.d.ts
 *.log
 .DS_Store
-.sass-cache/
+/.sass-cache/

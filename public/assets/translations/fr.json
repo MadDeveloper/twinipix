@@ -1,0 +1,35 @@
+{
+    "modal": {
+        "changeLangTitle": "Changer la langue"
+    },
+    "home": {
+        "discoverYourTwins": "Tes Twins sont sur Facebook, découvre les !",
+        "logInButton": "Se connecter",
+        "logInError": "Erreur lors de l'authentification"
+    },
+    "footer": {
+        "welcomeMessage": "Bienvenue sur Twinipix !"
+    },
+    "others": {
+        "fanPage": "Fan Page",
+        "helpAndAssistance": "Aide et assistance",
+        "conditions": "Conditions d'utilisations",
+        "confidentiality": "Confidentialité",
+        "about": "A propos",
+        "logOutButton": "Se déconnecter"
+    },
+    "ranking": {
+        "friendsRemain": "Il te reste",
+        "friendsToTest": "amis à tester !",
+        "see": "Voir"
+    },
+    "profile": {
+        "twinsWithYouAs": "Twins avec toi à",
+        "indistinguable": "Wahou ! Indistinguables !",
+        "hisTwins": "Voici les twins à"
+    },
+    "button": {
+        "share": "Partager",
+        "invite": "Inviter"
+    }
+}

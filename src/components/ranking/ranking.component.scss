@@ -1,0 +1,35 @@
+@import '../../styles/conf';
+
+.identity {
+    width: 235px;
+
+    .name {
+        font-size: 16px;
+    }
+
+    .ui.avatar.image {
+        width: 50px !important;
+        height: 50px !important
+    }
+
+    @media all and(max-width: $max-small-smartphone-width) {
+        width: 200px;
+
+        .name {
+            font-size: 13px;
+        }
+    }
+}
+
+img.twin {
+    width: 50px !important;
+    height: 50px !important
+}
+
+button.ranking-share {
+    width: 120.5px;
+}
+
+#loader-ranking-item {
+    height: 50px;
+}

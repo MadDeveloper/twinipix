@@ -1,0 +1,32 @@
+<div class="main-padding-vertical main-padding-horizontal background white">
+    <h2 class="margin large top bottom text-center">
+        <a routerLink="/ranking" class="display block absolute back"><i class="angle left icon"></i></a>
+        <div><img class="profile picture big" src="{{ profile.picture.data.url }}" alt=""></div>
+        <div>{{ profile.name }}</div>
+    </h2>
+    <div class="flex items-center justify-center column">
+        <span class="margin bottom">{{ 'profile.twinsWithYouAs' | translate }}</span>
+        <div *ngIf="100 == profile.correlation">
+            <img class="ui avatar image twin" src="/public/assets/images/logo.png">
+        </div>
+        <div *ngIf="null === profile.correlation || 100 > profile.correlation">
+            <div class="relative">
+                <div [ngClass]="setCircleProgressClasses()">
+                  <span>{{ null !== profile.correlation ? profile.correlation : '?' }} %</span>
+                  <div class="slice">
+                    <div class="bar"></div>
+                    <div class="fill"></div>
+                  </div>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="null !== profile.correlation" class="margin top large">
+            <button (click)="share( friend )" class="button default ranking-share"><i class="share alternate icon"></i> {{ 'button.share' | translate }}</button>
+        </div>
+    </div>
+</div>
+
+<h4 class="margin top bottom large main-padding-horizontal">{{ 'profile.hisTwins' | translate }} {{ profile.name }}</h4>
+<div class="background white main-padding-vertical main-padding-horizontal">
+    (à faire)
+</div>

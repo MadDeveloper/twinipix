@@ -1,0 +1,29 @@
+@import 'conf';
+
+.button {
+    border-radius: 38px;
+    padding: 6px 12px;
+    border: none;
+
+    &.default {
+        background-color: $main-color;
+        color: white !important;
+
+        &:hover {
+            background-color: $darker-main-color;
+        }
+    }
+
+    &.important {
+        background-color: #F58D77;
+        color: white !important;
+
+        &:hover {
+            background-color: #DE644A;
+        }
+    }
+}
+
+.back {
+    font-size: 25px;
+}

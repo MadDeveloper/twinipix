@@ -1,0 +1,16 @@
+.list {
+    &.large {
+        .item {
+            padding: $main-padding 0;
+        }
+    }
+    &.extra-large {
+        .item {
+            padding: 1.5 * $main-padding 0;
+        }
+    }
+
+    .item.flex::after {
+        content: none !important;
+    }
+}

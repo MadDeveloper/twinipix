@@ -1,0 +1,23 @@
+@import './../../styles/conf';
+
+header {
+    background-color: $main-color;
+}
+
+main {
+    display: block;
+}
+
+footer {
+    display: flex;
+    align-items: center;
+    background-color: #FAFAFA;
+    border-top: 1px solid #EBEBEB;
+    justify-content: center;
+    position: fixed;
+    z-index: 1000;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px 5px;
+}
