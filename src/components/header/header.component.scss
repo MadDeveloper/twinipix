@@ -6,11 +6,11 @@
             display: flex;
             align-items: center;
             justify-content: space-around;
-            width: $max-screen-body-width;
+            width: $normal-screen-body-width;
             margin: auto;
         }
 
-        @media all and(max-width: $max-smartphone-width) {
+        @media all and(max-width: $min-desktop-width) {
             & {
                 width: 100%;
             }

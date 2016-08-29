@@ -21,7 +21,7 @@ export class RankingService {
         private quizz: QuizzService
     ) { }
 
-    get(): Promise<{ friends: RankingFriend[]; invitableFriends: RankingFriend[]; }> {
+    get( userfacebookID ): Promise<{ friends: RankingFriend[]; invitableFriends: RankingFriend[]; }> {
         return new Promise( ( resolve, reject ) => {
             if ( !this.snapshotExpired() ) {
                 resolve( this.snapshot() )
@@ -32,8 +32,14 @@ export class RankingService {
                         let friends: RankingFriend[] = data.friends
                         let invitableFriends: RankingFriend[] = data.invitableFriends
 
-                        this.save({ friends, invitableFriends })
-                        resolve({ friends, invitableFriends })
+                        this.calculateCorrelations( userfacebookID, friends )
+                            .then( friends => {
+                                this.sort( friends )
+
+                                this.save({ friends, invitableFriends })
+                                resolve({ friends, invitableFriends })
+                            })
+                            .catch( reject )
                     })
                     .catch( reject )
             }
@@ -63,35 +69,53 @@ export class RankingService {
         this.storage.remove( 'user.rankingExpiration' )
     }
 
-    calculateCorrelation( userFacebookID: string, friendFacebookID: string ): Promise<number> {
+    calculateCorrelations( userfacebookID: string, friends: RankingFriend[] ): Promise<any> {
+        return new Promise( ( resolve, reject ) => {
+            this.getResult( userfacebookID )
+                .then( result => {
+                    const userResult = result
+                    const numberFriends = friends.length
+
+                    friends.forEach( ( friend, index ) => {
+                        this.getResult( friend.id )
+                            .then( friendResult => {
+                                this.calculateCorrelation( userResult, friendResult )
+                                    .then( correlation => {
+                                        friend.correlation = correlation
+                                        friends[ index ] = friend
+
+                                        if ( index >= ( numberFriends - 1 ) ) {
+                                            resolve( friends )
+                                        }
+                                    })
+                                    .catch( reject )
+                            })
+                            .catch( reject )
+                    })
+                })
+                .catch( reject )
+        })
+    }
+
+    calculateCorrelation( userResult: string, friendResult: string ): Promise<number> {
         return new Promise( ( resolve, reject ) => {
             let userResult
             let friendResult
 
-            this.getResult( userFacebookID )
-                .then( result => {
-                    userResult = result
-                    return this.getResult( friendFacebookID )
-                })
-                .then( result => {
-                    if ( result ) {
-                        friendResult = result
+            if ( userResult && friendResult ) {
+                this.quizz
+                    .getQuizz()
+                    .then( quizz => {
+                        const numberTotalAnswers: number = Object.keys( quizz.questions ).length * 4
+                        const comparaison: string = this.compareResults( userResult, friendResult )
+                        const correlation: number = Math.floor( ( ( comparaison.split( '2' ).length - 1 ) / numberTotalAnswers ) * 100 )
 
-                        this.quizz
-                            .getQuizz()
-                            .then( quizz => {
-                                const numberTotalAnswers: number = Object.keys( quizz.questions ).length * 4
-                                const comparaison: string = this.compareResults( userResult, friendResult )
-                                const correlation: number = Math.floor( ( ( comparaison.split( '2' ).length - 1 ) / numberTotalAnswers ) * 100 )
-
-                                resolve( correlation )
-                            })
-                            .catch( reject )
-                    } else {
-                        resolve( null )
-                    }
-                })
-                .catch( reject )
+                        resolve( correlation )
+                    })
+                    .catch( reject )
+            } else {
+                resolve( null )
+            }
         })
     }
 
@@ -106,6 +130,20 @@ export class RankingService {
                 })
                 .catch( reject )
         })
+    }
+
+    sort( ranking: RankingFriend[] ) {
+        ranking.sort( ( a: RankingFriend, b: RankingFriend ) => {
+            if ( a.correlation > b.correlation ) {
+                return -1
+            } else if ( a.correlation < b.correlation || ( null === a.correlation && null !== b.correlation ) ) {
+                return 1
+            }
+
+            return 0
+        })
+
+        return ranking
     }
 
     private compareResults( userResult: string, friendResult: string ): string {

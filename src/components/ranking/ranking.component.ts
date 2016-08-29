@@ -3,7 +3,6 @@
  */
 import { Component,
          OnInit,
-         OnDestroy,
          Input }    from '@angular/core'
 import { Router }   from '@angular/router'
 
@@ -28,7 +27,7 @@ import { RankingFriend } from './../../entities/ranking-friend'
     templateUrl: 'ranking.component.html',
     styleUrls: [ 'ranking.component.css' ]
 })
-export class RankingComponent implements OnInit, OnDestroy {
+export class RankingComponent implements OnInit {
     friends: RankingFriend[] = []
     invitableFriends: RankingFriend[] = []
 
@@ -57,7 +56,7 @@ export class RankingComponent implements OnInit, OnDestroy {
             .didQuizz()
             .then( done => {
                 if ( !done ) {
-                    // this.router.navigate([ '/quizz' ])
+                    this.router.navigate([ '/quizz' ])
                 }
             })
         this.userfacebookID = this.facebook.getUID()
@@ -69,7 +68,7 @@ export class RankingComponent implements OnInit, OnDestroy {
         this.initScrollPageEvent()
         this.toggleLoading( 'enable' )
         this.ranking
-            .get()
+            .get( this.userfacebookID )
             .then( ranking => {
                 this.allFriends = ranking.friends.slice( 0 )
                 this.allInvitableFriends = ranking.invitableFriends.slice( 0 )
@@ -78,10 +77,6 @@ export class RankingComponent implements OnInit, OnDestroy {
             .catch( error => {
                 this.toggleLoading( 'disable' )
             })
-    }
-
-    ngOnDestroy() {
-
     }
 
     invite( friend: RankingFriend ) {
@@ -115,24 +110,17 @@ export class RankingComponent implements OnInit, OnDestroy {
             }
 
             for ( let index = this.startFriendsIndex; index <= endFriendIndex; index++ ) {
-                ( index => {
-                    let friend = this.allFriends[ index ]
+                let friend = this.allFriends[ index ]
 
-                    if ( !friend.picture || !friend.picture.data || !friend.picture.data.url ) {
-                        friend.picture = {
-                            data: {
-                                url: '/public/assets/images/facebook-default-no-profile-pic.jpg'
-                            }
+                if ( !friend.picture || !friend.picture.data || !friend.picture.data.url ) {
+                    friend.picture = {
+                        data: {
+                            url: '/public/assets/images/facebook-default-no-profile-pic.jpg'
                         }
                     }
+                }
 
-                    this.ranking
-                        .calculateCorrelation( this.userfacebookID, friend.id )
-                        .then( correlation => {
-                            friend.correlation = correlation
-                            this.friends.push( friend )
-                        })
-                })( index )
+                this.friends.push( friend )
             }
 
             if ( endFriendIndex - this.startFriendsIndex < this.friendsPerPage - 1 ) {
@@ -165,24 +153,17 @@ export class RankingComponent implements OnInit, OnDestroy {
             }
 
             for ( let index = this.startInvitableFriendsIndex; index <= endFriendIndex; index++ ) {
-                ( index => {
-                    let friend = this.allInvitableFriends[ index ]
+                let friend = this.allInvitableFriends[ index ]
 
-                    if ( !friend.picture || !friend.picture.data || !friend.picture.data.url ) {
-                        friend.picture = {
-                            data: {
-                                url: '/public/assets/images/facebook-default-no-profile-pic.jpg'
-                            }
+                if ( !friend.picture || !friend.picture.data || !friend.picture.data.url ) {
+                    friend.picture = {
+                        data: {
+                            url: '/public/assets/images/facebook-default-no-profile-pic.jpg'
                         }
                     }
+                }
 
-                    this.ranking
-                        .calculateCorrelation( this.userfacebookID, friend.id )
-                        .then( correlation => {
-                            friend.correlation = correlation
-                            this.invitableFriends.push( friend )
-                        })
-                })( index )
+                this.invitableFriends.push( friend )
             }
 
             this.startInvitableFriendsIndex = endFriendIndex + 1

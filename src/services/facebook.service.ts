@@ -62,8 +62,10 @@ export class FacebookService {
                                                 // console.log( 'data.friends', data.friends.length )
                                                 resolve( data )
                                             })
+                                            .catch( reject )
                                     })
                                 })
+                                .catch( reject )
                         })
                     } else {
                         reject()
@@ -74,30 +76,32 @@ export class FacebookService {
 
     extractPageFriends( response, accessToken, friends?: any[] ): Promise<any[]> {
         return new Promise( ( resolve, reject ) => {
-            if ( !friends ) {
-                friends = []
-                if ( response.data.length > 0 ) {
-                    response.data.forEach( friend => {
-                        // console.log( `friend first ${friend.name}` )
-                        friend.correlation = 0
-                        friends.push( friend )
-                    })
-                }
-            }
-
-            if ( response.paging && response.paging.next ) {
-                FB.api( response.paging.next, { accessToken }, response => {
+            if ( !response.error ) {
+                if ( !friends ) {
+                    friends = []
                     if ( response.data.length > 0 ) {
                         response.data.forEach( friend => {
-                            // console.log( `friend second ${friend.name}` )
                             friend.correlation = 0
                             friends.push( friend )
                         })
                     }
-                    this.extractPageFriends( response, accessToken, friends ).then( resolve )
-                })
+                }
+
+                if ( response.paging && response.paging.next ) {
+                    FB.api( response.paging.next, { accessToken }, response => {
+                        if ( response.data.length > 0 ) {
+                            response.data.forEach( friend => {
+                                friend.correlation = 0
+                                friends.push( friend )
+                            })
+                        }
+                        this.extractPageFriends( response, accessToken, friends ).then( resolve )
+                    })
+                } else {
+                    resolve( friends )
+                }
             } else {
-                resolve( friends )
+                reject()
             }
         })
     }

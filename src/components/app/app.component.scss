@@ -6,6 +6,11 @@ header {
 
 main {
     display: block;
+
+    @media screen and(min-width: $min-desktop-width) {
+        max-width: $max-screen-body-width;
+        margin: auto;
+    }
 }
 
 footer {
