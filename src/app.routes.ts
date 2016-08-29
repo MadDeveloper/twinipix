@@ -2,6 +2,7 @@ import { Routes, RouterModule } from '@angular/router'
 
 import { AuthGuardService }         from './services/auth-guard.service'
 import { ProfileResolveService }    from './services/profile-resolve.service'
+import { QuizzGuardService }        from './services/quizz-guard.service'
 
 import { HomeComponent }            from './components/home/home.component'
 import { RankingComponent }         from './components/ranking/ranking.component'
@@ -23,12 +24,12 @@ const routes: Routes = [
     {
         path: 'ranking',
         component: RankingComponent,
-        canActivate: [ AuthGuardService ]
+        canActivate: [ AuthGuardService, QuizzGuardService ]
     },
     {
         path: 'profile',
         component: ProfileComponent,
-        canActivate: [ AuthGuardService ],
+        canActivate: [ AuthGuardService, QuizzGuardService ],
         resolve: {
             profile: ProfileResolveService
         }

@@ -5,14 +5,12 @@ import { Router,
         RouterStateSnapshot }   from '@angular/router'
 
 import { UserService }      from './user.service'
-import { FirebaseService }  from './firebase.service'
 
 @Injectable()
 export class AuthGuardService implements CanActivate {
     constructor(
         private router: Router,
-        private user: UserService,
-        private firebase: FirebaseService
+        private user: UserService
     ) { }
 
     canActivate( route: ActivatedRouteSnapshot, state: RouterStateSnapshot ): boolean {

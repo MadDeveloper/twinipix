@@ -1,6 +1,9 @@
 import { Ipix } from './ipix'
 
 export class Question {
-    wording: string
-    ipixs: Ipix[]
+    id: string
+    data: {
+        wording: string
+        ipixs: Ipix[]
+    }
 }

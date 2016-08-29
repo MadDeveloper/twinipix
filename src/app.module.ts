@@ -32,6 +32,7 @@ import { UserService }              from './services/user.service'
 import { RankingService }           from './services/ranking.service'
 import { ProfileResolveService }    from './services/profile-resolve.service'
 import { QuizzService }             from './services/quizz.service'
+import { QuizzGuardService }         from './services/quizz-guard.service'
 import { IpixService }              from './services/ipix.service'
 
 /*
@@ -101,6 +102,7 @@ import { KeysPipe } from './pipes/keys.pipe'
         RankingService,
         ProfileResolveService,
         QuizzService,
+        QuizzGuardService,
         IpixService,
         { provide: APP_CONFIG, useValue: APP_CONFIG_VALUES }
     ],

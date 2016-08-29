@@ -6,6 +6,7 @@ node_modules/
 !/typings/
 /typings/*
 !/typings/index.d.ts
+!/typings/firebase.d.ts
 *.log
 .DS_Store
 /.sass-cache/

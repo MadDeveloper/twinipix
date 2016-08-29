@@ -11,7 +11,6 @@ import { Router }   from '@angular/router'
  */
 import { StorageService }   from './../../services/storage.service'
 import { RankingService }   from './../../services/ranking.service'
-import { UserService }      from './../../services/user.service'
 import { FacebookService }  from './../../services/facebook.service'
 import { FirebaseService }  from './../../services/firebase.service'
 import { TitleService }     from './../../services/title.service'
@@ -48,17 +47,9 @@ export class RankingComponent implements OnInit {
         private title: TitleService,
         private storage: StorageService,
         private ranking: RankingService,
-        private user: UserService,
         private router: Router,
         private facebook: FacebookService
     ) {
-        this.user
-            .didQuizz()
-            .then( done => {
-                if ( !done ) {
-                    this.router.navigate([ '/quizz' ])
-                }
-            })
         this.userfacebookID = this.facebook.getUID()
     }
 
