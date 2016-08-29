@@ -3,8 +3,8 @@ import { Router,
         CanActivate,
         ActivatedRouteSnapshot,
         RouterStateSnapshot }   from '@angular/router'
-
-import { UserService }      from './user.service'
+        
+import { UserService } from './user.service'
 
 @Injectable()
 export class AuthGuardService implements CanActivate {

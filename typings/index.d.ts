@@ -1,3 +1,4 @@
+/// <reference path="firebase.d.ts" />
 /// <reference path="globals/core-js/index.d.ts" />
 /// <reference path="globals/facebook-js-sdk/index.d.ts" />
 /// <reference path="globals/jasmine/index.d.ts" />
