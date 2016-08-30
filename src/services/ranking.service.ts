@@ -69,29 +69,33 @@ export class RankingService {
 
     calculateCorrelations( userfacebookID: string, friends: RankingFriend[] ): Promise<any> {
         return new Promise( ( resolve, reject ) => {
-            this.getResult( userfacebookID )
-                .then( result => {
-                    const userResult = result
-                    const numberFriends = friends.length
+            if ( 0 === friends.length ) {
+                resolve( friends )
+            } else {
+                this.getResult( userfacebookID )
+                    .then( result => {
+                        const userResult = result
+                        const numberFriends = friends.length
 
-                    friends.forEach( ( friend, index ) => {
-                        this.getResult( friend.id )
-                            .then( friendResult => {
-                                this.calculateCorrelation( userResult, friendResult )
-                                    .then( correlation => {
-                                        friend.correlation = correlation
-                                        friends[ index ] = friend
+                        friends.forEach( ( friend, index ) => {
+                            this.getResult( friend.id )
+                                .then( friendResult => {
+                                    this.calculateCorrelation( userResult, friendResult )
+                                        .then( correlation => {
+                                            friend.correlation = correlation
+                                            friends[ index ] = friend
 
-                                        if ( index >= ( numberFriends - 1 ) ) {
-                                            resolve( friends )
-                                        }
-                                    })
-                                    .catch( reject )
-                            })
-                            .catch( reject )
+                                            if ( index >= ( numberFriends - 1 ) ) {
+                                                resolve( friends )
+                                            }
+                                        })
+                                        .catch( reject )
+                                })
+                                .catch( reject )
+                        })
                     })
-                })
-                .catch( reject )
+                    .catch( reject )
+            }
         })
     }
 
@@ -102,11 +106,11 @@ export class RankingService {
 
             if ( userResult && friendResult ) {
                 this.quizz
-                    .getQuizz()
-                    .then( quizz => {
-                        const numberTotalAnswers: number = Object.keys( quizz.questions ).length * 4
+                    .getQuestions()
+                    .then( questions => {
+                        const numberTotalQuestions: number = Object.keys( questions ).length
                         const comparaison: string = this.compareResults( userResult, friendResult )
-                        const correlation: number = Math.floor( ( ( comparaison.split( '2' ).length - 1 ) / numberTotalAnswers ) * 100 )
+                        const correlation: number = Math.floor( ( ( comparaison.split( '1' ).length - 1 ) / numberTotalQuestions ) * 100 )
 
                         resolve( correlation )
                     })
@@ -147,8 +151,18 @@ export class RankingService {
     private compareResults( userResult: string, friendResult: string ): string {
         let comparaison: string = ''
 
-        for( let i = 0, numberAnswers = userResult.length; i < numberAnswers; i++  ) {
-            comparaison += userResult[ i ] === friendResult[ i ] ? '2' : '0'
+        for( let i = 0, numberAnswers = userResult.length / 4; i < numberAnswers; i += 4 ) {
+            if ( userResult[ i ] === friendResult[ i ] ) {
+                comparaison += '1'
+            } else if ( userResult[ i + 1 ] === friendResult[ i + 1 ] ) {
+                comparaison += '1'
+            } else if ( userResult[ i + 2 ] === friendResult[ i + 2 ] ) {
+                comparaison += '1'
+            } else if( userResult[ i + 3 ] === friendResult[ i + 3 ] ) {
+                comparaison += '1'
+            } else {
+                comparaison += '0'
+            }
         }
 
         return comparaison

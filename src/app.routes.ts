@@ -37,7 +37,7 @@ const routes: Routes = [
     {
         path: 'quizz',
         component: QuizzComponent,
-        canActivate: [ AuthGuardService ]
+        canActivate: [ AuthGuardService, QuizzGuardService ]
     },
     {
         path: 'others',

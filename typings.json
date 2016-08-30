@@ -1,6 +1,8 @@
 {
   "name": "Twinipix",
-  "dependencies": {},
+  "dependencies": {
+    "lodash": "registry:npm/lodash#4.0.0+20160723033700"
+  },
   "globalDependencies": {
     "core-js": "registry:dt/core-js#0.0.0+20160602141332",
     "facebook-js-sdk": "registry:dt/facebook-js-sdk#0.0.0+20160316171810",

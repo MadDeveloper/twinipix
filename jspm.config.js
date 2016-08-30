@@ -9,13 +9,15 @@
     'angular2-in-memory-web-api': 'node_modules/angular2-in-memory-web-api',
     'rxjs':                       'node_modules/rxjs',
     'ng2-translate':              'node_modules/ng2-translate',
-    'firebase':                   'node_modules/firebase/firebase.js'
+    'firebase':                   'node_modules/firebase/firebase.js',
+    'lodash':                     'node_modules/lodash'
   };
   // packages tells the System loader how to load when no filename and/or no extension
   var packages = {
     'public':                       { main: 'main.js',  defaultExtension: 'js' },
     'rxjs':                         { defaultExtension: 'js' },
-    'angular2-in-memory-web-api':   { main: 'index.js', defaultExtension: 'js' }
+    'angular2-in-memory-web-api':   { main: 'index.js', defaultExtension: 'js' },
+    'lodash':                       { main: 'lodash.js', defaultExtension: 'js' }
   };
   var ngPackageNames = [
     'common',

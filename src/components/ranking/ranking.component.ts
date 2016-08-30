@@ -49,15 +49,14 @@ export class RankingComponent implements OnInit {
         private ranking: RankingService,
         private router: Router,
         private facebook: FacebookService
-    ) {
-        this.userfacebookID = this.facebook.getUID()
-    }
+    ) { }
 
     ngOnInit() {
         this.title.setTitle( 'Ranking' )
         this.$loader = $( '#loader-ranking-item' )
         this.initScrollPageEvent()
         this.toggleLoading( 'enable' )
+        this.userfacebookID = this.facebook.getUID()
         this.ranking
             .get( this.userfacebookID )
             .then( ranking => {
@@ -111,7 +110,7 @@ export class RankingComponent implements OnInit {
                     }
                 }
 
-                this.friends.push( friend )
+                this.friends[ index ] = friend
             }
 
             if ( endFriendIndex - this.startFriendsIndex < this.friendsPerPage - 1 ) {
@@ -154,7 +153,7 @@ export class RankingComponent implements OnInit {
                     }
                 }
 
-                this.invitableFriends.push( friend )
+                this.invitableFriends[ index ] = friend
             }
 
             this.startInvitableFriendsIndex = endFriendIndex + 1

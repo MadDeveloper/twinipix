@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core'
+import { Injectable }   from '@angular/core'
+import * as _           from 'lodash'
 
 import { StorageService } from './storage.service'
 
@@ -45,7 +46,7 @@ export class FacebookService {
                             this.extractPageFriends( response, accessToken )
                                 .then( invitableFriends => {
                                     // console.log( 'base', friends.length )
-                                    data.invitableFriends = invitableFriends.slice( 0 )
+                                    data.invitableFriends = _.uniqBy( invitableFriends, 'name' )
                                     // data.invitableFriends.forEach( friend => {
                                     //     console.log( `invitable ${friend.name}` )
                                     // })
@@ -55,7 +56,7 @@ export class FacebookService {
                                         this.extractPageFriends( response, accessToken )
                                             .then( friends => {
                                                 // data.friends = response.data
-                                                data.friends = friends.slice( 0 )
+                                                data.friends = _.uniqBy( friends, 'name' )
                                                 // data.friends.forEach( friend => {
                                                 //     console.log( `friends ${friend.name}` )
                                                 // })

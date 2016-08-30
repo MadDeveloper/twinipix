@@ -1,5 +1,8 @@
-import { Component, OnInit }    from '@angular/core'
-import { Router }               from '@angular/router'
+import { Component,
+         OnInit,
+         OnDestroy }                from '@angular/core'
+import { Router }                   from '@angular/router'
+import { DomSanitizationService }   from '@angular/platform-browser'
 
 import { TitleService }     from './../../services/title.service'
 import { StorageService }   from './../../services/storage.service'
@@ -7,7 +10,6 @@ import { QuizzService }     from './../../services/quizz.service'
 import { UserService }      from './../../services/user.service'
 
 import { Question } from './../../entities/question'
-import { Answer }   from './../../entities/answer'
 
 @Component({
     moduleId: module.id,
@@ -17,119 +19,123 @@ import { Answer }   from './../../entities/answer'
 })
 export class QuizzComponent implements OnInit {
     question: Question
-    questions: Question[]
-    answers: Answer[]
+    ipixOne: any
+    ipixTwo: any
+    ipixTree: any
+    ipixFour: any
+    choices: any[] = []
+
+    private ipixsObserver: any
 
     constructor(
         private title: TitleService,
         private storage: StorageService,
         private quizz: QuizzService,
         private user: UserService,
-        private router: Router
+        private router: Router,
+        private sanitizer: DomSanitizationService
     ) { }
 
     ngOnInit() {
         this.title.setTitle( 'Quizz' )
-        this.remove()
+        // this.quizz.remove()
         this.quizz
-            .getQuizz()
-            .then( quizz => {
-                this.questions = quizz.questions
-                this.getCurrentQuestion()
-                    .then( question => {
-                        this.question = question
-                    })
+            .getCurrentQuestion()
+            .then( question => {
+                this.displayQuestion( question )
             })
+        this.resizeQuestionHandler()
     }
 
-    validate( answer: Answer ) {
+    ngOnDestroy() {
+        this.ipixsObserver.disconnect()
+    }
 
+    validate( choice ) {
+        this.choices.push( choice )
+        this.displayNextQuestion()
     }
 
     displayNextQuestion() {
-        this.getNextQuestion()
+        this.quizz
+            .getNextQuestion()
             .then( question => {
-                this.question = question
+                this.displayQuestion( question )
             })
     }
 
-    getCurrentQuestion(): Promise<Question> {
-        let quizzStorage = this.storage.get( 'user.quizz' )
-
-        if ( !quizzStorage ) {
-            this.storage.save( 'user.quizz', { currentQuestion: null } )
-            quizzStorage = {}
-            quizzStorage.currentQuestion = null
-        }
-
-        if ( !quizzStorage.currentQuestion ) {
-            return this.getFirebaseFirstQuestion()
-                .then( question => {
-                    quizzStorage.currentQuestion = question
-
-                    return this.getFirebaseNextQuestion( question )
-                })
-                .then( nextQuestion => {
-                    quizzStorage.nextQuestion = nextQuestion
-                    this.storage.save( 'user.quizz', quizzStorage )
-
-                    return quizzStorage.currentQuestion
-                })
+    displayQuestion( question: Question ) {
+        if ( null !== question ) {
+            this.question = question
+            this.ipixOne = this.sanitizer.bypassSecurityTrustStyle( `url('${this.question.ipixs[ 1 ]}')` )
+            this.ipixTwo =  this.sanitizer.bypassSecurityTrustStyle( `url('${this.question.ipixs[ 2 ]}')` )
+            this.ipixTree =  this.sanitizer.bypassSecurityTrustStyle( `url('${this.question.ipixs[ 3 ]}')` )
+            this.ipixFour =  this.sanitizer.bypassSecurityTrustStyle( `url('${this.question.ipixs[ 4 ]}')` )
         } else {
-            Promise.resolve( quizzStorage.currentQuestion )
+            this.quizz
+                .finished( this.choices )
+                .then( () => {
+                    this.quizz
+                        .isFinished()
+                        .then( isFinished => {
+                            if ( isFinished ) {
+                                this.router.navigate([ '/ranking' ])
+                            } else {
+                                this.router.navigate([ '/quizz' ])
+                            }
+                        })
+                        .catch( error => {
+                            this.router.navigate([ '/quizz' ])
+                        })
+                })
+                .catch( error => {
+                    this.router.navigate([ '/quizz' ])
+                })
         }
     }
 
-    getNextQuestion(): Promise<Question> {
-        let quizzStorage = this.storage.get( 'user.quizz' )
-        let nextQuestion: Question = quizzStorage.nextQuestion
+    resizeQuestionHandler() {
+        let $window = $( window )
 
-        return this.updateCurrentQuestion( nextQuestion )
-            .then( () => {
-                return nextQuestion
-            })
-    }
+        this.ipixsObserver = new MutationObserver( ( mutations: MutationRecord[] ) => {
+            const mutation: MutationRecord = mutations[ 0 ]
 
-    updateCurrentQuestion( nextQuestion: Question ): Promise<boolean> {
-        let quizzStorage = this.storage.get( 'user.quizz' )
+            if ( mutation.addedNodes.length > 0 ) {
+                const $questionContainer    = $( mutation.target )
+                const $question             = $( mutation.addedNodes[ 0 ] )
+                const $wording              = $( $question.children()[ 0 ] )
+                const $iPixContainer        = $( $question.children()[ 1 ] )
 
-        return this.getFirebaseNextQuestion( nextQuestion )
-            .then( newNextQuestion => {
-                quizzStorage.currentQuestion = nextQuestion
-                quizzStorage.nextQuestion = newNextQuestion
-                this.storage.save( 'user.quizz', quizzStorage )
+                $window.on( 'resize', () => {
+                    resizeQuestion( $questionContainer, $question )
+                    resizeIpixContainer( $iPixContainer )
+                })
+                $window.trigger( 'resize' )
+            }
+        })
 
-                return true
-            })
-    }
+        this.ipixsObserver.observe( document.getElementById( 'question-container' ), {
+            attributes: true,
+            childList: true,
+            characterData: true
+        })
 
-    finished(): boolean {
-        const quizzStorage = this.storage.get( 'user.quizz' )
+        function resizeQuestion( $questionContainer: JQuery, $question: JQuery ) {
+            const $footer = $( 'footer' )
+            const $header = $( 'header' )
 
-        return undefined !== quizzStorage.finished && true === quizzStorage.finished
-    }
+            $questionContainer.innerHeight( $window.height() - $header.innerHeight() )
 
-    private getFirebaseNextQuestion( currentQuestion: Question ): Promise<Question> {
-        return firebase
-            .database()
-            .ref( `/quizz/questions/${currentQuestion.id + 1}` )
-            .once( 'value' )
-            .then( snapshot => {
-                return snapshot.val()
-            })
-    }
+            if ( $footer.length > 0 ) {
+                $questionContainer.innerHeight( $questionContainer.innerHeight() - $footer.innerHeight() )
+            }
 
-    private getFirebaseFirstQuestion(): Promise<Question> {
-        return firebase
-            .database()
-            .ref( `/quizz/questions/1` )
-            .once( 'value' )
-            .then( snapshot => {
-                return snapshot.val()
-            })
-    }
+            $questionContainer.innerHeight( $questionContainer.innerHeight() - 5 )
+            $question.innerHeight( $questionContainer.innerHeight() )
+        }
 
-    private remove() {
-        this.storage.remove( 'user.quizz' )
+        function resizeIpixContainer( $ipixContainer ) {
+
+        }
     }
 }

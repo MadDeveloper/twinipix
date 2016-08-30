@@ -7,4 +7,4 @@
 </main>
 
 <!-- Footer component -->
-<footer [style.display]="userLiked || isHomePage ? 'none' : 'flex'"></footer>
+<footer *ngIf="!userLiked && !isHomePage"></footer>

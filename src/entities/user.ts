@@ -3,5 +3,4 @@ export class User {
     email: string
     photoURL: string
     facebookUID: string
-    didQuizz: boolean
 }

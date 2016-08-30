@@ -1,3 +1,26 @@
-<div *ngIf="question">
-    <h1>{{ question }}</h1>
+<div id="question-container">
+    <div *ngIf="question">
+        <div id="wording">
+            <!-- <span class="ui red circular label">{{ question.id }}</span> -->
+            <span class="margin left">{{ question.wording }}</span>
+        </div>
+        <div id="ipixs-container">
+            <div class="flex height half">
+                <div class="ipix clickable" (click)="validate( '1000' )">
+                    <div [style.background-image]="ipixOne"></div>
+                </div>
+                <div class="ipix clickable" (click)="validate( '0100' )">
+                    <div [style.background-image]="ipixTwo"></div>
+                </div>
+            </div>
+            <div class="flex height half">
+                <div class="ipix clickable" (click)="validate( '0010' )">
+                    <div [style.background-image]="ipixTree"></div>
+                </div>
+                <div class="ipix clickable" (click)="validate( '0001' )">
+                    <div [style.background-image]="ipixFour"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

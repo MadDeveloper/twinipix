@@ -1,8 +1,9 @@
 import { Injectable }               from '@angular/core'
 
-import { SessionService } from './session.service'
-import { StorageService } from './storage.service'
-import { FirebaseService } from './firebase.service'
+import { SessionService }   from './session.service'
+import { StorageService }   from './storage.service'
+import { FirebaseService }  from './firebase.service'
+import { FacebookService }  from './facebook.service'
 
 import { User } from './../entities/user'
 
@@ -11,30 +12,9 @@ export class UserService {
     constructor(
         public session: SessionService,
         private storage: StorageService,
-        private firebase: FirebaseService
+        private firebase: FirebaseService,
+        private facebook: FacebookService
     ) { }
-
-    /*
-     * Global user methods
-     */
-    didQuizz(): Promise<boolean> {
-        return new Promise( ( resolve, reject ) => {
-            const firebaseUID = this.firebase.getUID()
-
-            if ( firebaseUID ) {
-                firebase
-                    .database()
-                    .ref( `/users/${firebaseUID}/didQuizz` )
-                    .once( 'value' )
-                    .then( snapshot => {
-                        resolve( snapshot.val() )
-                    })
-                    .catch( reject )
-            } else {
-                reject()
-            }
-        })
-    }
 
     isLogged(): boolean {
         return this.storage.get( 'user' ).logged
