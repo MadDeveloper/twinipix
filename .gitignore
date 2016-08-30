@@ -8,5 +8,7 @@ node_modules/
 !/typings/index.d.ts
 !/typings/firebase.d.ts
 *.log
+npm-debug.log
+npm-debug.log.*
 .DS_Store
 /.sass-cache/
