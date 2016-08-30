@@ -57,6 +57,7 @@ export class RankingComponent implements OnInit {
         this.initScrollPageEvent()
         this.toggleLoading( 'enable' )
         this.userfacebookID = this.facebook.getUID()
+        // this.ranking.remove()
         this.ranking
             .get( this.userfacebookID )
             .then( ranking => {

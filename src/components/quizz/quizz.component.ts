@@ -74,22 +74,16 @@ export class QuizzComponent implements OnInit {
         } else {
             this.quizz
                 .finished( this.choices )
-                .then( () => {
-                    this.quizz
-                        .isFinished()
-                        .then( isFinished => {
-                            if ( isFinished ) {
-                                this.router.navigate([ '/ranking' ])
-                            } else {
-                                this.router.navigate([ '/quizz' ])
-                            }
-                        })
-                        .catch( error => {
-                            this.router.navigate([ '/quizz' ])
-                        })
+                .then( this.quizz.isFinished )
+                .then( isFinished => {
+                    if ( isFinished ) {
+                        this.router.navigate([ '/ranking' ])
+                    } else {
+                        // this.router.navigate([ '/quizz' ])
+                    }
                 })
                 .catch( error => {
-                    this.router.navigate([ '/quizz' ])
+                    // this.router.navigate([ '/quizz' ])
                 })
         }
     }

@@ -43,28 +43,17 @@ export class FacebookService {
 
                     if ( uid ) {
                         FB.api( `/${uid}/invitable_friends`, { accessToken }, response => {
-                            this.extractPageFriends( response, accessToken )
+                            this.extractPageFriends( response, accessToken, [] )
                                 .then( invitableFriends => {
-                                    // console.log( 'base', friends.length )
+                                    // _.forEach( invitableFriends, friend => console.log( friend.name ) )
                                     data.invitableFriends = _.uniqBy( invitableFriends, 'name' )
-                                    // data.invitableFriends.forEach( friend => {
-                                    //     console.log( `invitable ${friend.name}` )
-                                    // })
-                                    // console.log( 'data.invitableFriends', data.invitableFriends.length )
 
-                                    FB.api( `/${uid}/friends?fields=id,name,picture`, { accessToken }, response => {
-                                        this.extractPageFriends( response, accessToken )
-                                            .then( friends => {
-                                                // data.friends = response.data
-                                                data.friends = _.uniqBy( friends, 'name' )
-                                                // data.friends.forEach( friend => {
-                                                //     console.log( `friends ${friend.name}` )
-                                                // })
-                                                // console.log( 'data.friends', data.friends.length )
-                                                resolve( data )
-                                            })
-                                            .catch( reject )
-                                    })
+                                    this.getPlayingFriends()
+                                        .then( friends => {
+                                            data.friends = _.uniqBy( friends, 'name' )
+                                            resolve( data )
+                                        })
+                                        .catch( reject )
                                 })
                                 .catch( reject )
                         })
@@ -75,10 +64,28 @@ export class FacebookService {
         })
     }
 
-    extractPageFriends( response, accessToken, friends?: any[] ): Promise<any[]> {
+    getPlayingFriends(): Promise<any[]> {
+        return new Promise( ( resolve, reject ) => {
+            this.getAccessToken()
+                .then( token => {
+                    const uid = this.getUID()
+                    const accessToken = token
+
+                    if ( uid ) {
+                        FB.api( `/${uid}/friends?fields=id,name,picture`, { accessToken }, response => {
+                            this.extractPageFriends( response, accessToken, [] ).then( resolve )
+                        })
+                    } else {
+                        resolve([])
+                    }
+                })
+        })
+    }
+
+    extractPageFriends( response, accessToken, friends: any[] ): Promise<any[]> {
         return new Promise( ( resolve, reject ) => {
             if ( !response.error ) {
-                if ( !friends ) {
+                if ( 0 === friends.length ) {
                     friends = []
                     if ( response.data.length > 0 ) {
                         response.data.forEach( friend => {

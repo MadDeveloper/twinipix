@@ -101,6 +101,22 @@ export class QuizzService {
             .ref( `/quizz/results/${facebookUID}` )
             .set( choices.join( '' ) )
             .then( () => this.storage.save( 'user.quizz', quizzStorage ) )
+            .then( () =>
+                this.facebook
+                    .getPlayingFriends()
+                    .then( friends => {
+                        let updates = {}
+
+                        friends.forEach( friend => {
+                            updates[ friend.id ] = true
+                        })
+
+                        return firebase
+                            .database()
+                            .ref( `/notified` )
+                            .update( updates )
+                    })
+            )
     }
 
     isFinished(): Promise<boolean> {
