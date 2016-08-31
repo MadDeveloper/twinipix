@@ -17,14 +17,19 @@ export class FacebookService {
         return firebaseStored && firebaseStored.user ? firebaseStored.user.providerData[ 0 ].uid : null
     }
 
-    getAccessToken(): Promise<any> {
+    getAccessToken( roundtrip?: boolean ): Promise<any> {
         // const firebaseStored = this.storage.get( 'user.firebase' )
-        // return firebaseStored && firebaseStored.credential ? firebaseStored.credential.accessToken : null
-
+        // firebaseStored && firebaseStored.credential ? firebaseStored.credential.accessToken : null
         return new Promise( ( resolve, reject ) => {
             FB.getLoginStatus( response => {
-                resolve( response.authResponse.accessToken )
-            })
+                if ( 'connected' === response.status ) {
+                    resolve( response.authResponse.accessToken )
+                } else if ( 'not_authorized' === response.status ) {
+                    resolve( this.getAccessToken( true ) )
+                } else {
+                    reject( response )
+                }
+            }, roundtrip )
         })
     }
 

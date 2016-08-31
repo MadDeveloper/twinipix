@@ -13,16 +13,20 @@ export class NotificationService {
     }
 
     notifyAll( friends: any[] ): Promise<any> {
-        let updates = {}
+        if ( friends && friends.length > 0 ) {
+            let updates = {}
 
-        friends.forEach( friend => {
-            updates[ friend.id ] = true
-        })
+            friends.forEach( friend => {
+                updates[ friend.id ] = true
+            })
 
-        return firebase
-            .database()
-            .ref( `/notified` )
-            .update( updates )
+            return firebase
+                .database()
+                .ref( `/notified` )
+                .update( updates )
+        } else {
+            return Promise.resolve()
+        }
     }
 
     notified( facebookUID: string ): Promise<boolean> {

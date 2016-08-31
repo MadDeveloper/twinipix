@@ -29,6 +29,7 @@ export class RankingService {
                     if ( !notified && snapshot ) {
                         resolve( this.snapshot() )
                     } else {
+                        this.remove()
                         this.facebook
                             .getFriends()
                             .then( data => {
@@ -55,6 +56,7 @@ export class RankingService {
                             .catch( reject )
                     }
                 })
+                .catch( reject )
         })
     }
 

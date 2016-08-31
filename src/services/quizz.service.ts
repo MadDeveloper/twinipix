@@ -103,11 +103,11 @@ export class QuizzService {
             .ref( `/quizz/results/${facebookUID}` )
             .set( choices.join( '' ) )
             .then( () => this.storage.save( 'user.quizz', quizzStorage ) )
-            .then( () =>
-                this.facebook
+            .then( () => {
+                return this.facebook
                     .getPlayingFriends()
                     .then( friends => this.notification.notifyAll( friends ) )
-            )
+            })
     }
 
     isFinished(): Promise<boolean> {
