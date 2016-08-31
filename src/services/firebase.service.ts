@@ -18,9 +18,7 @@ export class FirebaseService {
     }
 
     currentUser(): any {
-        const firebaseStorage = this.storage.get( 'user.firebase' )
-
-        return firebaseStorage && undefined !== firebaseStorage ? firebaseStorage.user : null
+        return this.storage.defined( 'user.firebase' ) ? this.storage.get( 'user.firebase' ).user : null
     }
 
     login(): Promise<any> {

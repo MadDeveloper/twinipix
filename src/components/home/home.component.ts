@@ -56,7 +56,7 @@ export class HomeComponent implements OnInit {
             .then( () => this.router.navigate([ '/ranking' ]) )
             .catch( error => {
                 console.log( error )
-                $( '#login-error' ).removeClass( 'none' )
+                $( '#login-error' ).removeClass( 'none' ).html( JSON.stringify( error ) )
             })
     }
 }

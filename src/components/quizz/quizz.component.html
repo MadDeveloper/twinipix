@@ -2,7 +2,7 @@
     <div *ngIf="question">
         <div id="wording">
             <!-- <span class="ui red circular label">{{ question.id }}</span> -->
-            <span class="margin left">{{ question.wording }}</span>
+            <span class="margin left">{{ question.wording | translate }}</span>
         </div>
         <div id="ipixs-container">
             <div class="flex height half">

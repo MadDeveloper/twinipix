@@ -21,14 +21,7 @@ export class SessionService {
     }
 
     isValid(): boolean {
-        if ( this.storage.defined( 'session' ) ) {
-            const session = this.get()
-            const now = Math.floor( Date.now() / 1000 )
-
-            return now < session.end
-        } else {
-            return false
-        }
+        return this.storage.defined( 'session' )
     }
 
     revalidate(): void {

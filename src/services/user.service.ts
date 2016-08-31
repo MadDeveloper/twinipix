@@ -4,6 +4,8 @@ import { SessionService }   from './session.service'
 import { StorageService }   from './storage.service'
 import { FirebaseService }  from './firebase.service'
 import { FacebookService }  from './facebook.service'
+import { RankingService }   from './ranking.service'
+import { QuizzService }     from './quizz.service'
 
 import { User } from './../entities/user'
 
@@ -13,7 +15,9 @@ export class UserService {
         public session: SessionService,
         private storage: StorageService,
         private firebase: FirebaseService,
-        private facebook: FacebookService
+        private facebook: FacebookService,
+        private ranking: RankingService,
+        private quizz: QuizzService
     ) { }
 
     isLogged(): boolean {
@@ -42,8 +46,10 @@ export class UserService {
         })
     }
 
-    logout(): void {
+    logout() {
         this.storage.save( 'user.logged', false )
+        this.quizz.remove()
+        this.ranking.remove()
         this.session.destroy()
     }
 

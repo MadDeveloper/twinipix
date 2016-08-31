@@ -47,7 +47,7 @@ export class StorageService implements Storage {
         if ( -1 !== key.indexOf( '.' ) ) {
             let { data, master, prop } = this.extractMasterAndProperty( key )
 
-            return master.hasOwnProperty( prop ) && undefined !== master[ prop ]
+            return master.hasOwnProperty( prop )
         } else {
             return null !== localStorage.getItem( key )
         }

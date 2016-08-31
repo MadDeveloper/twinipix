@@ -32,8 +32,8 @@ import { UserService }              from './services/user.service'
 import { RankingService }           from './services/ranking.service'
 import { ProfileResolveService }    from './services/profile-resolve.service'
 import { QuizzService }             from './services/quizz.service'
-import { QuizzGuardService }         from './services/quizz-guard.service'
-import { IpixService }              from './services/ipix.service'
+import { QuizzGuardService }        from './services/quizz-guard.service'
+import { NotificationService }      from './services/notification.service'
 
 /*
  * Global components
@@ -48,7 +48,6 @@ import { HomeComponent }            from './components/home/home.component'
 import { RankingComponent }         from './components/ranking/ranking.component'
 import { ProfileComponent }         from './components/ranking/profile/profile.component'
 import { QuizzComponent }           from './components/quizz/quizz.component'
-import { IpixComponent }            from './components/ipix/ipix.component'
 import { OthersComponent }          from './components/others/others.component'
 import { HelpComponent }            from './components/others/help/help.component'
 import { ConditionsComponent }      from './components/others/conditions/conditions.component'
@@ -79,7 +78,6 @@ import { KeysPipe } from './pipes/keys.pipe'
         HomeComponent,
         RankingComponent,
         ProfileComponent,
-        IpixComponent,
         QuizzComponent,
         OthersComponent,
         HelpComponent,
@@ -103,7 +101,7 @@ import { KeysPipe } from './pipes/keys.pipe'
         ProfileResolveService,
         QuizzService,
         QuizzGuardService,
-        IpixService,
+        NotificationService,
         { provide: APP_CONFIG, useValue: APP_CONFIG_VALUES }
     ],
     exports: [ AppComponent, TranslateModule ],

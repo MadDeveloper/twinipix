@@ -31,5 +31,18 @@
     "button": {
         "share": "Partager",
         "invite": "Inviter"
+    },
+    "ipix": {
+        "travel": "Which kind of travel do you prefer?",
+        "dish": "What's your favorite dish?",
+        "job": "Choose the job you would like to do",
+        "sexy": "What's your sexy kind?",
+        "hero": "Choose your favorite hero",
+        "drink": "What's your favorite drink",
+        "dog": "Which dog you will choose?",
+        "flower": "Your favorite flower",
+        "house": "Your dreaming house",
+        "mythical": "Your favorite mystical creature",
+        "romantic": "The most romantic place for you"
     }
 }

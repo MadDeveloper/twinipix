@@ -1,16 +1,18 @@
 import { Injectable } from '@angular/core'
 
-import { StorageService }   from './storage.service'
-import { FacebookService }  from './facebook.service'
+import { StorageService }       from './storage.service'
+import { FacebookService }      from './facebook.service'
+import { NotificationService }  from './notification.service'
 
-import { Quizz } from './../entities/quizz'
+import { Quizz }    from './../entities/quizz'
 import { Question } from './../entities/question'
 
 @Injectable()
 export class QuizzService {
     constructor(
         private storage: StorageService,
-        private facebook: FacebookService
+        private facebook: FacebookService,
+        private notification: NotificationService
     ) { }
 
     getQuestions(): Promise<Quizz> {
@@ -104,18 +106,7 @@ export class QuizzService {
             .then( () =>
                 this.facebook
                     .getPlayingFriends()
-                    .then( friends => {
-                        let updates = {}
-
-                        friends.forEach( friend => {
-                            updates[ friend.id ] = true
-                        })
-
-                        return firebase
-                            .database()
-                            .ref( `/notified` )
-                            .update( updates )
-                    })
+                    .then( friends => this.notification.notifyAll( friends ) )
             )
     }
 
@@ -131,6 +122,10 @@ export class QuizzService {
 
                 return null !== finished
             })
+    }
+
+    remove() {
+        this.storage.remove( 'user.quizz' )
     }
 
     private getFirebaseNextQuestion( currentQuestion: Question ): Promise<Question> {
@@ -155,9 +150,5 @@ export class QuizzService {
             .then( snapshot => {
                 return snapshot.val()
             })
-    }
-
-    remove() {
-        this.storage.remove( 'user.quizz' )
     }
 }

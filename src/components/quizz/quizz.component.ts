@@ -7,7 +7,6 @@ import { DomSanitizationService }   from '@angular/platform-browser'
 import { TitleService }     from './../../services/title.service'
 import { StorageService }   from './../../services/storage.service'
 import { QuizzService }     from './../../services/quizz.service'
-import { UserService }      from './../../services/user.service'
 
 import { Question } from './../../entities/question'
 
@@ -31,14 +30,13 @@ export class QuizzComponent implements OnInit {
         private title: TitleService,
         private storage: StorageService,
         private quizz: QuizzService,
-        private user: UserService,
         private router: Router,
         private sanitizer: DomSanitizationService
     ) { }
 
     ngOnInit() {
         this.title.setTitle( 'Quizz' )
-        // this.quizz.remove()
+        this.quizz.remove()
         this.quizz
             .getCurrentQuestion()
             .then( question => {
@@ -74,7 +72,7 @@ export class QuizzComponent implements OnInit {
         } else {
             this.quizz
                 .finished( this.choices )
-                .then( this.quizz.isFinished )
+                .then( () => this.quizz.isFinished )
                 .then( isFinished => {
                     if ( isFinished ) {
                         this.router.navigate([ '/ranking' ])
@@ -102,7 +100,6 @@ export class QuizzComponent implements OnInit {
 
                 $window.on( 'resize', () => {
                     resizeQuestion( $questionContainer, $question )
-                    resizeIpixContainer( $iPixContainer )
                 })
                 $window.trigger( 'resize' )
             }
@@ -126,10 +123,6 @@ export class QuizzComponent implements OnInit {
 
             $questionContainer.innerHeight( $questionContainer.innerHeight() - 5 )
             $question.innerHeight( $questionContainer.innerHeight() )
-        }
-
-        function resizeIpixContainer( $ipixContainer ) {
-
         }
     }
 }
