@@ -23,6 +23,9 @@ export class FacebookService {
         return new Promise( ( resolve, reject ) => {
             FB.getLoginStatus( response => {
                 if ( 'connected' === response.status ) {
+                    if ( roundtrip ) {
+                        this.updateAccessToken( response.authResponse.accessToken )
+                    }
                     resolve( response.authResponse.accessToken )
                 } else if ( 'not_authorized' === response.status ) {
                     resolve( this.getAccessToken( true ) )
@@ -31,6 +34,25 @@ export class FacebookService {
                 }
             }, roundtrip )
         })
+    }
+
+    updateAccessToken( token: string ) {
+        let firebaseStorage = this.storage.get( 'user.firebase' )
+
+        if ( firebaseStorage && firebaseStorage.credential ) {
+            firebaseStorage.credential.accessToken = token
+            this.storage.save( 'user.firebase', firebaseStorage )
+        }
+    }
+
+    accessTokenExpired(): boolean {
+        const firebaseStorage = this.storage.get( 'user.firebase' )
+
+        if ( firebaseStorage && firebaseStorage.user ) {
+            return Date.now() >= firebaseStorage.user.stsTokenManager.expirationTime
+        } else {
+            return true
+        }
     }
 
     getFriends(): Promise<any> {
@@ -42,7 +64,7 @@ export class FacebookService {
         }
 
         return new Promise( ( resolve, reject ) => {
-            this.getAccessToken()
+            this.getAccessToken( true )
                 .then( token => {
                     accessToken = token
 
@@ -63,7 +85,7 @@ export class FacebookService {
                                 .catch( reject )
                         })
                     } else {
-                        reject()
+                        reject( 'Bad Facebook UID: ' + uid )
                     }
                 })
         })
@@ -71,7 +93,7 @@ export class FacebookService {
 
     getPlayingFriends(): Promise<any[]> {
         return new Promise( ( resolve, reject ) => {
-            this.getAccessToken()
+            this.getAccessToken( true )
                 .then( token => {
                     const uid = this.getUID()
                     const accessToken = token
@@ -114,7 +136,7 @@ export class FacebookService {
                     resolve( friends )
                 }
             } else {
-                reject()
+                reject( response )
             }
         })
     }
@@ -144,7 +166,7 @@ export class FacebookService {
                             this.storage.save( 'user.facebook', response )
                             resolve( response )
                         } else {
-                            reject()
+                            reject( response )
                         }
                     })
                 })

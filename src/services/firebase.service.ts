@@ -38,15 +38,9 @@ export class FirebaseService {
     }
 
     logout(): Promise<any> {
-        return new Promise( ( resolve, reject ) => {
-            firebase
-                .auth()
-                .signOut()
-                .then( () => {
-                    this.storage.remove( 'user.firebase' )
-                    resolve()
-                })
-                .catch( reject )
-        })
+        return firebase
+            .auth()
+            .signOut()
+            .then( () => this.storage.remove( 'user.firebase' ) )
     }
 }

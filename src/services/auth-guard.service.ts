@@ -3,14 +3,16 @@ import { Router,
         CanActivate,
         ActivatedRouteSnapshot,
         RouterStateSnapshot }   from '@angular/router'
-        
-import { UserService } from './user.service'
+
+import { UserService }      from './user.service'
+import { FacebookService }  from './facebook.service'
 
 @Injectable()
 export class AuthGuardService implements CanActivate {
     constructor(
         private router: Router,
-        private user: UserService
+        private user: UserService,
+        private facebook: FacebookService
     ) { }
 
     canActivate( route: ActivatedRouteSnapshot, state: RouterStateSnapshot ): boolean {
@@ -22,7 +24,7 @@ export class AuthGuardService implements CanActivate {
                 return true
             }
         } else {
-            if ( this.user.isLogged() ) {
+            if ( this.user.isLogged() && !this.facebook.accessTokenExpired() ) {
                 return true
             } else {
                 this.router.navigate([ '/home' ])
