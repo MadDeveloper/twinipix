@@ -5,6 +5,7 @@
     "home": {
         "discoverYourTwins": "Tes Twins sont sur Facebook, découvre les !",
         "logInButton": "Se connecter",
+        "continueAs": "Continuer en tant que",
         "logInError": "Erreur lors de l'authentification"
     },
     "footer": {

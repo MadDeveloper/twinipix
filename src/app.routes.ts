@@ -1,6 +1,7 @@
 import { Routes, RouterModule } from '@angular/router'
 
 import { AuthGuardService }         from './services/auth-guard.service'
+import { HomeResolveService }       from './services/home-resolve.service'
 import { ProfileResolveService }    from './services/profile-resolve.service'
 import { QuizzGuardService }        from './services/quizz-guard.service'
 
@@ -19,7 +20,10 @@ const routes: Routes = [
     {
         path: 'home',
         component: HomeComponent,
-        canActivate: [ AuthGuardService ]
+        canActivate: [ AuthGuardService ],
+        resolve: {
+            facebookUserLogged: HomeResolveService
+        }
     },
     {
         path: 'search',

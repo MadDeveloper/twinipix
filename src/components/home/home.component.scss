@@ -33,13 +33,12 @@
     }
 
     button.button.login {
-        border-radius: 20px;
-        padding: 8px 0;
-        width: 250px;
-        font-size: 15px;
+        min-width: 250px;
+        font-size: 17px;
+        padding: 8px 16px;
         background-color: white;
         border: none;
-        color: black;
+        color: black !important;
 
         &:hover {
             cursor: pointer;

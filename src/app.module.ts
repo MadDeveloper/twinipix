@@ -29,6 +29,7 @@ import { AuthService }              from './services/auth.service'
 import { StorageService }           from './services/storage.service'
 import { SessionService }           from './services/session.service'
 import { UserService }              from './services/user.service'
+import { HomeResolveService }       from './services/home-resolve.service'
 import { RankingService }           from './services/ranking.service'
 import { ProfileResolveService }    from './services/profile-resolve.service'
 import { QuizzService }             from './services/quizz.service'
@@ -99,6 +100,7 @@ import { KeysPipe } from './pipes/keys.pipe'
         AuthService,
         SessionService,
         UserService,
+        HomeResolveService,
         RankingService,
         ProfileResolveService,
         QuizzService,

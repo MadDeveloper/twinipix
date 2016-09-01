@@ -64,7 +64,7 @@
         </svg>
         <div id="home-main-text">
             <p>{{ 'home.discoverYourTwins' | translate }}</p>
-            <button (click)="login()" class="button login"><i class="facebook f icon"></i> {{ 'home.logInButton' | translate }}</button>
+            <button (click)="login()" class="button default login"><i class="facebook f icon"></i> <span *ngIf="facebookUserLogged">{{ 'home.continueAs' | translate }} <strong>{{ facebookUserLogged.name }}</strong></span><span *ngIf="!facebookUserLogged">{{ 'home.logInButton' | translate }}</span></button>
             <div class="ui red message display none" id="login-error"><i class="ban icon"></i> {{ 'home.logInError' | translate }}</div>
         </div>
     </div>

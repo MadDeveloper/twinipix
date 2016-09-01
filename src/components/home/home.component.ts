@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject }    from '@angular/core'
-import { Router }                       from '@angular/router'
+import { Router, ActivatedRoute }       from '@angular/router'
 
 import { LangService }      from './../../services/lang.service'
 import { TitleService }     from './../../services/title.service'
@@ -15,6 +15,7 @@ import { Lang } from './../../entities/lang'
     styleUrls: [ 'home.component.css' ]
 })
 export class HomeComponent implements OnInit {
+    facebookUserLogged: any
     langs: Lang[]
     langUsed: Lang
 
@@ -23,13 +24,17 @@ export class HomeComponent implements OnInit {
         private router: Router,
         private title: TitleService,
         private auth: AuthService,
-        private translate: TranslateService
+        private translate: TranslateService,
+        private route: ActivatedRoute
     ) { }
 
     ngOnInit() {
         this.langs = this.lang.availables()
         this.langUsed = this.lang.used()
         this.title.setTitle( 'Sign in' )
+        this.route.data.forEach(( data: { facebookUserLogged: any }) => {
+            this.facebookUserLogged = data.facebookUserLogged
+        })
     }
 
     changeLang( lang: Lang ) {
