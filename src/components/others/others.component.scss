@@ -1,12 +1,6 @@
 @import '../../styles/conf';
 
 #others-menu {
-    @media all and (min-width: $max-smartphone-width + 1) {
-        #others-menu {
-            width: $normal-screen-body-width;
-        }
-    }
-
     a {
         font-size: 17px !important;
     }
