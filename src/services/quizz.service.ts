@@ -105,7 +105,7 @@ export class QuizzService {
             .then( () => this.storage.save( 'user.quizz', quizzStorage ) )
             .then( () => {
                 return this.facebook
-                    .getPlayingFriends()
+                    .getPlayingFriends( facebookUID )
                     .then( friends => this.notification.notifyAll( friends ) )
             })
     }

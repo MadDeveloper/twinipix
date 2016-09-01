@@ -51,12 +51,13 @@ export class SearchComponent implements OnInit {
         this.initScrollPageEvent()
         this.userfacebookID = this.facebook.getUID()
         this.ranking
-            .get( this.userfacebookID, { forSearch: true } )
+            .get( this.userfacebookID, { useSnapshot: true } )
             .then( ranking => this.allFriends = this.friends = ranking.friends )
     }
 
     search( term: string ) {
-        this.friends = this.allFriends.filter( friend => -1 !== friend.name.indexOf( term ) )
+        term = term.trim().toLowerCase()
+        this.friends = this.allFriends.filter( friend => -1 !== friend.name.toLowerCase().indexOf( term ) )
     }
 
     gotoProfile( friend: RankingFriend ) {

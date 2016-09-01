@@ -55,8 +55,12 @@ export class FacebookService {
         }
     }
 
-    getFriends(): Promise<any> {
-        const uid = this.getUID()
+    getFriends( uid: string = undefined, options: { onlyFriends?: boolean } = {} ): Promise<any> {
+        uid = uid || this.getUID()
+        options = {
+            onlyFriends: undefined !== options.onlyFriends ? options.onlyFriends : false
+        }
+
         let accessToken
         let data = {
             friends: [],
@@ -69,21 +73,26 @@ export class FacebookService {
                     accessToken = token
 
                     if ( uid ) {
-                        FB.api( `/${uid}/invitable_friends`, { accessToken }, response => {
-                            this.extractPageFriends( response, accessToken, [] )
-                                .then( invitableFriends => {
-                                    // _.forEach( invitableFriends, friend => console.log( friend.name ) )
-                                    data.invitableFriends = _.uniqBy( invitableFriends, 'name' )
+                        this.getPlayingFriends( uid )
+                            .then( friends => {
+                                data.friends = _.uniqBy( friends, 'name' )
 
-                                    this.getPlayingFriends()
-                                        .then( friends => {
-                                            data.friends = _.uniqBy( friends, 'name' )
-                                            resolve( data )
-                                        })
-                                        .catch( reject )
-                                })
-                                .catch( reject )
-                        })
+                                if ( options.onlyFriends ) {
+                                    data.invitableFriends = []
+                                    resolve( data )
+                                } else {
+                                    FB.api( `/${uid}/invitable_friends`, { accessToken }, response => {
+                                        this.extractPageFriends( response, accessToken, [] )
+                                            .then( invitableFriends => {
+                                                // _.forEach( invitableFriends, friend => console.log( friend.name ) )
+                                                data.invitableFriends = _.uniqBy( invitableFriends, 'name' )
+                                                resolve( data )
+                                            })
+                                            .catch( reject )
+                                    })
+                                }
+                            })
+                            .catch( reject )
                     } else {
                         reject( 'Bad Facebook UID: ' + uid )
                     }
@@ -91,11 +100,12 @@ export class FacebookService {
         })
     }
 
-    getPlayingFriends(): Promise<any[]> {
+    getPlayingFriends( uid ): Promise<any[]> {
+        uid = uid || this.getUID()
+
         return new Promise( ( resolve, reject ) => {
             this.getAccessToken( true )
                 .then( token => {
-                    const uid = this.getUID()
                     const accessToken = token
 
                     if ( uid ) {

@@ -19,24 +19,29 @@ export class RankingService {
         private notification: NotificationService
     ) { }
 
-    get( facebookUID, options = { forSearch: false } ): Promise<{ friends: RankingFriend[]; invitableFriends: RankingFriend[]; }> {
+    get( facebookUID, options: { useSnapshot?: boolean; save?: boolean, onlyFriends?: boolean, currentUser?: boolean } = {} ): Promise<{ friends: RankingFriend[]; invitableFriends: RankingFriend[]; }> {
+        options = {
+            useSnapshot: undefined !== options.useSnapshot ? options.useSnapshot : false,
+            save: undefined !== options.save ? options.save : true,
+            onlyFriends: undefined !== options.onlyFriends ? options.onlyFriends : false,
+            currentUser: undefined !== options.currentUser ? options.currentUser : true
+        }
+
         return new Promise( ( resolve, reject ) => {
             const snapshot = this.snapshot()
-            let forSearch = options.forSearch
 
-            if ( forSearch ) {
+            if ( options.useSnapshot ) {
                 resolve( snapshot || [] )
             } else {
                 this.notification
                     .notified( facebookUID )
                     .then( notified => {
 
-                        if ( !notified && snapshot ) {
+                        if ( !notified && snapshot && options.currentUser ) {
                             resolve( snapshot || [] )
                         } else {
-                            this.remove()
                             this.facebook
-                                .getFriends()
+                                .getFriends( facebookUID, { onlyFriends: options.onlyFriends } )
                                 .then( data => {
                                     let friends: RankingFriend[] = data.friends
                                     let invitableFriends: RankingFriend[] = data.invitableFriends
@@ -45,15 +50,19 @@ export class RankingService {
                                         .then( friends => {
                                             this.sort( friends )
 
-                                            this.save({ friends, invitableFriends })
+                                            let response = options.onlyFriends ? { friends } : { friends, invitableFriends }
+
+                                            if ( options.save ) {
+                                                this.save( response )
+                                            }
 
                                             if ( notified ) {
                                                 this.notification
                                                     .remove( facebookUID )
-                                                    .then( () => resolve({ friends, invitableFriends }) )
+                                                    .then( () => resolve( response ) )
                                                     .catch( reject )
                                             } else {
-                                                resolve({ friends, invitableFriends })
+                                                resolve( response )
                                             }
                                         })
                                         .catch( reject )
@@ -70,7 +79,7 @@ export class RankingService {
         return this.storage.get( 'user.ranking' )
     }
 
-    save( ranking: { friends: RankingFriend[]; invitableFriends: RankingFriend[]; } ) {
+    save( ranking ) {
         this.storage.save( 'user.ranking', ranking )
     }
 

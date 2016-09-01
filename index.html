@@ -58,16 +58,6 @@
     </script>
 </head>
 <body>
-    <script>
-        function adaptSvgUrls() {
-            setTimeout( function() {
-                $( '.svg-path-url' ).each( function() {
-                    $( this ).attr( 'fill', 'url(' + window.location.pathname.substring( 1 ) + $( this ).attr( 'fill' ).replace( /url\(\w*/, '' ) )
-                })
-            }, 0 )
-        }
-    </script>
-
     <!-- Application entry point -->
     <app></app>
 </body>
