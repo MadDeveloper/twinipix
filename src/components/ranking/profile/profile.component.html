@@ -1,6 +1,6 @@
-<div class="main-padding-vertical main-padding-horizontal background white">
+<div class="main-padding-vertical main-padding-horizontal background white border solid grey radius no-top-radius">
     <h2 class="margin large top bottom text-center">
-        <a routerLink="/ranking" class="display block absolute back"><i class="angle left icon"></i></a>
+        <a (click)="goBack()" class="display block absolute back"><i class="angle left icon"></i></a>
         <div><img class="profile picture big" src="{{ profile.picture.data.url }}" alt=""></div>
         <div>{{ profile.name }}</div>
     </h2>
@@ -27,6 +27,6 @@
 </div>
 
 <h4 class="margin top bottom large main-padding-horizontal">{{ 'profile.hisTwins' | translate }} {{ profile.name }}</h4>
-<div class="background white main-padding-vertical main-padding-horizontal">
+<div class="background white border solid grey radius main-padding-vertical main-padding-horizontal">
     (à faire)
 </div>

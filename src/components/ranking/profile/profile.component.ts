@@ -51,6 +51,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.storage.remove( 'profile' )
     }
 
+    goBack() {
+        window.history.back()
+    }
+
     setCircleProgressClasses() {
         let classes = {
             'c100': true,

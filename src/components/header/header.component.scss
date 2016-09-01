@@ -16,11 +16,8 @@
             }
         }
 
-        * {
-            color: white;
-        }
-
         .item {
+            color: white;
             flex-grow: 1;
             display: block;
             text-align: center;
@@ -29,9 +26,25 @@
             &:hover, &:active, &.active {
                 background-color: transparent;
             }
+
             &.active {
                 border-bottom: 3px solid white;
                 border-radius: initial;
+            }
+
+            &.search {
+                position: absolute;
+                padding: 0 !important;
+                width: 277px;
+                z-index: 50;
+
+                input {
+                    padding: 0.5 * $main-padding $main-padding !important;
+                    font-size: 16px;
+                }
+                .search.link.icon {
+                    font-size: 14px;
+                }
             }
         }
 

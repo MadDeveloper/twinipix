@@ -1,6 +1,9 @@
-<div class="padding large top bottom right flex items-center justify-center">
-    <span class="margin large right">{{ 'ranking.friendsRemain' | translate }} {{ numberOfInvitableFriends() }} {{ 'ranking.friendsToTest' | translate }}</span>
-    <button class="button default"><i class="unhide icon"></i> {{ 'ranking.see' | translate }}</button>
+<div class="ui text-center search margin top bottom right left large">
+  <div id="search-box-container" class="ui icon input">
+    <input #searchBox (keyup)="search( searchBox.value )" class="prompt" type="text" placeholder="Search people...">
+    <i class="search icon"></i>
+  </div>
+  <div class="results"></div>
 </div>
 
 <div class="ui middle aligned divided list large background white border solid grey radius margin no-vertical main-padding-vertical main-padding-horizontal">
@@ -25,24 +28,6 @@
         </div>
     </div>
     <button (click)="share( friend )" class="button default ranking-button"><i class="share alternate icon"></i> {{ 'button.share' | translate }}</button>
-  </div>
-
-  <!-- Invitable friends -->
-  <div *ngFor="let friend of invitableFriends" class="item flex items-center space-between">
-    <div class="content identity">
-      <img class="ui avatar image" src="{{ friend.picture.data.url }}">
-      <span class="name">{{ friend.name }}</span>
-    </div>
-    <div class="relative">
-        <div class="c100 p0 extra-small">
-          <span>? %</span>
-          <div class="slice">
-            <div class="bar"></div>
-            <div class="fill"></div>
-          </div>
-        </div>
-    </div>
-    <button (click)="invite( friend )" class="button important ranking-button"><i class="plus icon"></i> {{ 'button.invite' | translate }}</button>
   </div>
 
   <!-- Loader -->

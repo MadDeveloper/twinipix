@@ -45,6 +45,7 @@ import { FooterComponent }  from './components/footer/footer.component'
  * App Components
  */
 import { HomeComponent }            from './components/home/home.component'
+import { SearchComponent }          from './components/search/search.component'
 import { RankingComponent }         from './components/ranking/ranking.component'
 import { ProfileComponent }         from './components/ranking/profile/profile.component'
 import { QuizzComponent }           from './components/quizz/quizz.component'
@@ -76,6 +77,7 @@ import { KeysPipe } from './pipes/keys.pipe'
         HeaderComponent,
         FooterComponent,
         HomeComponent,
+        SearchComponent,
         RankingComponent,
         ProfileComponent,
         QuizzComponent,

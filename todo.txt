@@ -1,0 +1,4 @@
+import html template within component and not let templateUrl => optimize http requests
+minimize css and js
+enableProdMode()
+bundle js files if possible

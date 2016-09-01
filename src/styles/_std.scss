@@ -240,3 +240,23 @@
      background-color: rgb( 233, 43, 53 ) !important;
      border-color: rgb( 233, 43, 53 ) !important;
 }
+
+/*
+ * Borders
+ */
+.border {
+    &.solid {
+        border-width: 1px;
+        border-style: solid;
+    }
+    &.grey {
+        border-color: $grey-color;
+    }
+    &.radius {
+        border-radius: 4px;
+    }
+    &.no-top-radius {
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+    }
+}

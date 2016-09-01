@@ -19,44 +19,50 @@ export class RankingService {
         private notification: NotificationService
     ) { }
 
-    get( facebookUID ): Promise<{ friends: RankingFriend[]; invitableFriends: RankingFriend[]; }> {
+    get( facebookUID, options = { forSearch: false } ): Promise<{ friends: RankingFriend[]; invitableFriends: RankingFriend[]; }> {
         return new Promise( ( resolve, reject ) => {
-            this.notification
-                .notified( facebookUID )
-                .then( notified => {
-                    const snapshot = this.snapshot()
+            const snapshot = this.snapshot()
+            let forSearch = options.forSearch
 
-                    if ( !notified && snapshot ) {
-                        resolve( this.snapshot() )
-                    } else {
-                        this.remove()
-                        this.facebook
-                            .getFriends()
-                            .then( data => {
-                                let friends: RankingFriend[] = data.friends
-                                let invitableFriends: RankingFriend[] = data.invitableFriends
+            if ( forSearch ) {
+                resolve( snapshot || [] )
+            } else {
+                this.notification
+                    .notified( facebookUID )
+                    .then( notified => {
 
-                                this.calculateCorrelations( facebookUID, friends )
-                                    .then( friends => {
-                                        this.sort( friends )
+                        if ( !notified && snapshot ) {
+                            resolve( snapshot || [] )
+                        } else {
+                            this.remove()
+                            this.facebook
+                                .getFriends()
+                                .then( data => {
+                                    let friends: RankingFriend[] = data.friends
+                                    let invitableFriends: RankingFriend[] = data.invitableFriends
 
-                                        this.save({ friends, invitableFriends })
+                                    this.calculateCorrelations( facebookUID, friends )
+                                        .then( friends => {
+                                            this.sort( friends )
 
-                                        if ( notified ) {
-                                            this.notification
-                                                .remove( facebookUID )
-                                                .then( () => resolve({ friends, invitableFriends }) )
-                                                .catch( reject )
-                                        } else {
-                                            resolve({ friends, invitableFriends })
-                                        }
-                                    })
-                                    .catch( reject )
-                            })
-                            .catch( reject )
-                    }
-                })
-                .catch( reject )
+                                            this.save({ friends, invitableFriends })
+
+                                            if ( notified ) {
+                                                this.notification
+                                                    .remove( facebookUID )
+                                                    .then( () => resolve({ friends, invitableFriends }) )
+                                                    .catch( reject )
+                                            } else {
+                                                resolve({ friends, invitableFriends })
+                                            }
+                                        })
+                                        .catch( reject )
+                                })
+                                .catch( reject )
+                        }
+                    })
+                    .catch( reject )
+            }
         })
     }
 
