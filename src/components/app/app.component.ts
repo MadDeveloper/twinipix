@@ -59,13 +59,12 @@ export class AppComponent implements OnInit {
          * Adapt main height
          */
         const $window = $( window )
-        const $footer = $( 'footer' )
 
         $window.resize( () => {
+            const $footer = $( 'footer' )
+            
             if ( $footer.length && $footer.height() > 0 ) {
-                $( 'main' ).css({
-                    paddingBottom: $footer.innerHeight() + 20
-                })
+                $( 'main' ).css( 'margin-bottom', $footer.innerHeight() + 20 )
             }
         })
 
