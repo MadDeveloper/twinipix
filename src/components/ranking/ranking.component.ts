@@ -72,6 +72,16 @@ export class RankingComponent implements OnInit {
             })
     }
 
+    share( friend: RankingFriend ) {
+        FB.ui({
+            method: 'share',
+            mobile_iframe: true,
+            href: 'http://twinipix.com'
+        }, response => {
+            console.log( response )
+        })
+    }
+
     invite( friend: RankingFriend ) {
         FB.ui({
             method: 'apprequests',

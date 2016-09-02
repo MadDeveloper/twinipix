@@ -71,6 +71,16 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.storage.remove( 'profile' )
     }
 
+    share() {
+        FB.ui({
+            method: 'share',
+            mobile_iframe: true,
+            href: 'http://twinipix.com'
+        }, response => {
+            console.log( response )
+        })
+    }
+
     goBack() {
         window.history.back()
     }
