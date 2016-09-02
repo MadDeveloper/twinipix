@@ -25,6 +25,7 @@ export class QuizzComponent implements OnInit {
     choices: any[] = []
 
     private ipixsObserver: any
+    private quizzCompleted: boolean = false
 
     constructor(
         private title: TitleService,
@@ -50,8 +51,10 @@ export class QuizzComponent implements OnInit {
     }
 
     validate( choice ) {
-        this.choices.push( choice )
-        this.displayNextQuestion()
+        if ( !this.quizzCompleted ) {
+            this.choices.push( choice )
+            this.displayNextQuestion()
+        }
     }
 
     displayNextQuestion() {
@@ -70,6 +73,7 @@ export class QuizzComponent implements OnInit {
             this.ipixTree =  this.sanitizer.bypassSecurityTrustStyle( `url('${this.question.ipixs[ 3 ]}')` )
             this.ipixFour =  this.sanitizer.bypassSecurityTrustStyle( `url('${this.question.ipixs[ 4 ]}')` )
         } else {
+            this.quizzCompleted = true
             this.quizz
                 .finished( this.choices )
                 .then( () => this.quizz.isFinished )
