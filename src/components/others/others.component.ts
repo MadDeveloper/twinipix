@@ -29,7 +29,7 @@ export class OthersComponent implements OnInit {
     ngOnInit() {
         this.langs = this.lang.availables()
         this.langUsed = this.lang.used()
-        this.title.setTitle( 'Others' )
+        this.title.setTitle( this.translate.instant( 'others.tabTitle' ) )
     }
 
     changeLang( lang: Lang ) {

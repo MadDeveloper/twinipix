@@ -11,15 +11,32 @@
     "footer": {
         "welcomeMessage": "Bienvenue sur Twinipix !"
     },
+    "search": {
+        "tabTitle": "Recherche"
+    },
     "others": {
+        "tabTitle": "Autres",
         "fanPage": "Fan Page",
         "helpAndAssistance": "Aide et assistance",
-        "conditions": "Conditions d'utilisations",
+        "conditions": "Conditions d'utilisation",
         "confidentiality": "Confidentialité",
         "about": "A propos",
         "logOutButton": "Se déconnecter"
     },
+    "about": {
+        "tabTitle": "A propos"
+    },
+    "conditions": {
+        "tabTitle": "Conditions d'utilisation"
+    },
+    "confidentiality": {
+        "tabTitle": "Confidentialité"
+    },
+    "help": {
+        "tabTitle": "Aide et assistance"
+    },
     "ranking": {
+        "tabTitle": "Classement",
         "friendsRemain": "Il te reste",
         "friendsToTest": "amis à tester !",
         "see": "Voir"
@@ -39,7 +56,7 @@
         "dish": "Quel est ton plat préféré ?",
         "job": "Choisis le travail que tu aimes le plus",
         "sexy": "Quel est ton type sexy ?",
-        "hero": "Choisis ton héro favoris",
+        "hero": "Choisis ton héro favori",
         "drink": "Quelle est ta boisson préférée ?",
         "dog": "Quel chien choisirais-tu ?",
         "flower": "Ta fleur préférée",

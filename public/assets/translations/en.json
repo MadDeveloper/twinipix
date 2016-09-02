@@ -11,7 +11,11 @@
     "footer": {
         "welcomeMessage": "Welcome on Twinipix!"
     },
+    "search": {
+        "tabTitle": "Search"
+    },
     "others": {
+        "tabTitle": "Others",
         "fanPage": "Fan Page",
         "helpAndAssistance": "Help and assistance",
         "conditions": "Conditions",
@@ -19,7 +23,20 @@
         "about": "About",
         "logOutButton": "Log Out"
     },
+    "about": {
+        "tabTitle": "About"
+    },
+    "conditions": {
+        "tabTitle": "Conditions"
+    },
+    "confidentiality": {
+        "tabTitle": "Confidentiality"
+    },
+    "help": {
+        "tabTitle": "Help and assistance"
+    },
     "ranking": {
+        "tabTitle": "Ranking",
         "friendsRemain": "You still have",
         "friendsToTest": "friends to test",
         "see": "See"

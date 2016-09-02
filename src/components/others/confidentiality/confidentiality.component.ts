@@ -1,5 +1,4 @@
-import { Component, OnInit }    from '@angular/core'
-import { Router }               from '@angular/router'
+import { Component, OnInit } from '@angular/core'
 
 import { TitleService }     from './../../../services/title.service'
 import { TranslateService } from 'ng2-translate/ng2-translate'
@@ -11,12 +10,11 @@ import { TranslateService } from 'ng2-translate/ng2-translate'
 })
 export class ConfidentialityComponent implements OnInit {
     constructor(
-        private router: Router,
         private title: TitleService,
         private translate: TranslateService
     ) { }
 
     ngOnInit() {
-        this.title.setTitle( 'Confidentiality' )
+        this.title.setTitle( this.translate.instant( 'confidentiality.tabTitle' ) )
     }
 }

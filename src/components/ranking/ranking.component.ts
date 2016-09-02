@@ -3,8 +3,9 @@
  */
 import { Component,
          OnInit,
-         Input }    from '@angular/core'
-import { Router }   from '@angular/router'
+         Input }            from '@angular/core'
+import { Router }           from '@angular/router'
+import { TranslateService } from 'ng2-translate/ng2-translate'
 
 /*
  * Services
@@ -45,6 +46,7 @@ export class RankingComponent implements OnInit {
 
     constructor(
         private title: TitleService,
+        private translate: TranslateService,
         private storage: StorageService,
         private ranking: RankingService,
         private router: Router,
@@ -52,7 +54,7 @@ export class RankingComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.title.setTitle( 'Ranking' )
+        this.title.setTitle( this.translate.instant( 'ranking.tabTitle' ) )
         this.$loader = $( '#loader-ranking-item' )
         this.initScrollPageEvent()
         this.toggleLoading( 'enable' )
