@@ -31,7 +31,7 @@ export class HomeComponent implements OnInit {
     ngOnInit() {
         this.langs = this.lang.availables()
         this.langUsed = this.lang.used()
-        this.title.setTitle( 'Sign in' )
+        this.title.setTitle( '' )
         this.route.data.forEach(( data: { facebookUserLogged: any }) => {
             this.facebookUserLogged = data.facebookUserLogged
         })

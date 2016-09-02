@@ -70,7 +70,6 @@ export class RankingService {
                                 .catch( reject )
                         }
                     })
-                    .catch( reject )
             }
         })
     }

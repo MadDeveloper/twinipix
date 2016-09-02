@@ -11,6 +11,7 @@ export class TitleService {
     ) { }
 
     setTitle( title: string ) {
-        this.title.setTitle( `${title} - ${this.config.title}` )
+        let dynamic = title && title.length > 0 ? `${title} - ` : ''
+        this.title.setTitle( `${dynamic}${this.config.title}` )
     }
 }

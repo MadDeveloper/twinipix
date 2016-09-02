@@ -30,7 +30,7 @@
 <div class="ui middle aligned divided list large background white border solid grey radius margin no-vertical main-padding-vertical main-padding-horizontal">
   <!-- Friends -->
   <div *ngFor="let friend of friends" class="item flex items-center space-between">
-    <div class="content identity clickable" (click)="gotoProfile( friend )">
+    <div class="content identity">
       <img class="ui avatar image" src="{{ friend.picture.data.url }}">
       <span class="name">{{ friend.name }}</span>
     </div>
