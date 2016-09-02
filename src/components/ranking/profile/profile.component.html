@@ -28,6 +28,11 @@
 
 <h4 class="margin top bottom large main-padding-horizontal">{{ 'profile.hisTwins' | translate }} {{ profile.name }}</h4>
 <div class="ui middle aligned divided list large background white border solid grey radius margin no-vertical main-padding-vertical main-padding-horizontal">
+  <!-- No Friends -->
+  <div *ngIf="friendsLoaded && 0 === allFriends.length" class="item flex items-center justify-center margin top large">
+    <h4>{{ profile.name }} {{ 'profile.shareNoFriends' | translate }}</h4>
+  </div>
+
   <!-- Friends -->
   <div *ngFor="let friend of friends" class="item flex items-center space-between">
     <div class="content identity">

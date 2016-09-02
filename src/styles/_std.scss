@@ -55,7 +55,7 @@
  */
 .margin {
     &.top {
-        padding-top: 5px;
+        margin-top: 5px;
     }
     &.large {
         &.top {
@@ -69,6 +69,11 @@
         }
         &.left {
             margin-left: 15px;
+        }
+    }
+    &.medium {
+        &.top {
+            margin-top: 10px;
         }
     }
     &.bottom {

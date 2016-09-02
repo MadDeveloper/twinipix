@@ -30,6 +30,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
     private profile: RankingFriend
 
+    private friendsLoaded: boolean = false
     private friendsPerPage: number = 25
     private startFriendsIndex: number = 0
     private allFriends: RankingFriend[] = []
@@ -62,6 +63,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
             .then( ranking => {
                 this.toggleLoading( 'disable' )
                 this.allFriends = this.friends = ranking.friends
+                this.friendsLoaded = true
             })
     }
 

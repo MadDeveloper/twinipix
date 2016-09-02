@@ -27,11 +27,12 @@
     "profile": {
         "twinsWithYouAs": "Twins with you as",
         "indistinguable": "Wahou ! Indistinguables !",
-        "hisTwins": "There are twins of"
+        "hisTwins": "Twins of",
+        "shareNoFriends": "doesn't share friends on Twinipix"
     },
     "button": {
-        "share": "Partager",
-        "invite": "Inviter"
+        "share": "Share",
+        "invite": "Invite"
     },
     "ipix": {
         "travel": "Which kind of travel do you prefer?",

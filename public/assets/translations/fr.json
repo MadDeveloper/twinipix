@@ -27,7 +27,8 @@
     "profile": {
         "twinsWithYouAs": "Twins avec toi à",
         "indistinguable": "Wahou ! Indistinguables !",
-        "hisTwins": "Voici les twins à"
+        "hisTwins": "Les twins de",
+        "shareNoFriends": "ne partage pas ses amis sur Twinipix"
     },
     "button": {
         "share": "Partager",
