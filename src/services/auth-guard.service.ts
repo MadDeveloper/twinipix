@@ -24,7 +24,7 @@ export class AuthGuardService implements CanActivate {
                 return true
             }
         } else {
-            if ( this.user.isLogged() && !this.facebook.accessTokenExpired() ) {
+            if ( this.user.isLogged() ) {
                 return true
             } else {
                 this.router.navigate([ '/home' ])

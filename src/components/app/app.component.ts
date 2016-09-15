@@ -62,7 +62,7 @@ export class AppComponent implements OnInit {
 
         $window.resize( () => {
             const $footer = $( 'footer' )
-            
+
             if ( $footer.length && $footer.height() > 0 ) {
                 $( 'main' ).css( 'margin-bottom', $footer.innerHeight() + 20 )
             }

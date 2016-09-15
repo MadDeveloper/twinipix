@@ -45,16 +45,6 @@ export class FacebookService {
         }
     }
 
-    accessTokenExpired(): boolean {
-        const firebaseStorage = this.storage.get( 'user.firebase' )
-
-        if ( firebaseStorage && firebaseStorage.user ) {
-            return Date.now() >= firebaseStorage.user.stsTokenManager.expirationTime
-        } else {
-            return true
-        }
-    }
-
     getFriends( uid: string = undefined, options: { onlyFriends?: boolean } = {} ): Promise<any> {
         uid = uid || this.getUID()
         options = {
