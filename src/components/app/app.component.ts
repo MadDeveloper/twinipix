@@ -64,7 +64,7 @@ export class AppComponent implements OnInit {
             const $footer = $( 'footer' )
 
             if ( $footer.length && $footer.height() > 0 ) {
-                $( 'main' ).css( 'margin-bottom', $footer.innerHeight() + 20 )
+                $( 'main' ).css( 'padding-bottom', $footer.innerHeight() )
             }
         })
 

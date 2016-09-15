@@ -30,11 +30,21 @@
     <button (click)="share( friend )" class="button default ranking-button"><i class="share alternate icon"></i> {{ 'button.share' | translate }}</button>
   </div>
 
-  <!-- Loader -->
-    <div id="loader-ranking-item" class="item flex items-center justify-center display none">
-        <div class='uil-ripple-css' style='transform:scale(0.2);'>
-            <div></div>
-            <div></div>
+  <!-- Invitable friends -->
+  <div *ngFor="let friend of invitableFriends" class="item flex items-center space-between">
+    <div class="content identity">
+      <img class="ui avatar image" src="{{ friend.picture.data.url }}">
+      <span class="name">{{ friend.name }}</span>
+    </div>
+    <div class="relative">
+        <div class="c100 p0 extra-small">
+          <span>? %</span>
+          <div class="slice">
+            <div class="bar"></div>
+            <div class="fill"></div>
+          </div>
         </div>
     </div>
+    <button (click)="invite( friend )" class="button important ranking-button"><i class="plus icon"></i> {{ 'button.invite' | translate }}</button>
+  </div>
 </div>

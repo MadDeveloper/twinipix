@@ -29,15 +29,13 @@ import { RankingFriend } from './../../entities/ranking-friend'
 })
 export class SearchComponent implements OnInit {
     friends: RankingFriend[] = []
+    invitableFriends: RankingFriend[] = []
 
     private friendsPerPage: number = 25
-    private startFriendsIndex: number = 0
     private allFriends: RankingFriend[] = []
-    private remainFriendsToDisplay: boolean = false
+    private allInvitableFriends: RankingFriend[] = []
 
     private userfacebookID: string
-
-    private loadingNextPage: boolean = false
 
     constructor(
         private title: TitleService,
@@ -50,59 +48,41 @@ export class SearchComponent implements OnInit {
 
     ngOnInit() {
         this.title.setTitle( this.translate.instant( 'search.tabTitle' ) )
-        this.initScrollPageEvent()
         this.userfacebookID = this.facebook.getUID()
-        this.ranking
-            .get( this.userfacebookID )
-            .then( ranking => this.allFriends = this.friends = ranking.friends )
+        this.ranking.get( this.userfacebookID ).then( ranking => {
+            this.allFriends = this.friends = ranking.friends
+            this.allInvitableFriends = this.invitableFriends = ranking.invitableFriends
+        })
+    }
+
+    share( friend: RankingFriend ) {
+        FB.ui({
+            method: 'share',
+            mobile_iframe: true,
+            href: 'http://twinipix.com'
+        }, response => {
+            console.log( response )
+        })
+    }
+
+    invite( friend: RankingFriend ) {
+        FB.ui({
+            method: 'apprequests',
+            title: 'Twinipix',
+            message: 'Come try Twinipix in order to compare us!',
+            to: friend.id
+        }, response => console.log( response ))
     }
 
     search( term: string ) {
         term = term.trim().toLowerCase()
         this.friends = this.allFriends.filter( friend => -1 !== friend.name.toLowerCase().indexOf( term ) )
+        this.invitableFriends = this.allInvitableFriends.filter( friend => -1 !== friend.name.toLowerCase().indexOf( term ) )
     }
 
     gotoProfile( friend: RankingFriend ) {
         this.storage.save( 'profile', friend )
         this.router.navigate([ '/profile' ])
-    }
-
-    getNextFriendsPage() {
-        this.remainFriendsToDisplay = ( this.startFriendsIndex + this.friendsPerPage ) < this.allFriends.length
-
-        if ( this.allFriends.length < this.friendsPerPage && null !== this.startFriendsIndex ) {
-            this.remainFriendsToDisplay = true
-        }
-
-        if ( this.remainFriendsToDisplay ) {
-            let endFriendIndex = this.startFriendsIndex + ( this.friendsPerPage - 1 )
-
-            this.loadingNextPage = true
-
-            if ( endFriendIndex + 1 > this.allFriends.length ) {
-                endFriendIndex = this.allFriends.length - 1
-            }
-
-            for ( let index = this.startFriendsIndex; index <= endFriendIndex; index++ ) {
-                let friend = this.allFriends[ index ]
-
-                if ( !friend.picture || !friend.picture.data || !friend.picture.data.url ) {
-                    friend.picture = {
-                        data: {
-                            url: '/public/assets/images/facebook-default-no-profile-pic.jpg'
-                        }
-                    }
-                }
-
-                this.friends[ index ] = friend
-            }
-
-            this.loadingNextPage = false
-
-            if ( endFriendIndex - this.startFriendsIndex >= this.friendsPerPage - 1 ) {
-                this.startFriendsIndex = endFriendIndex + 1
-            }
-        }
     }
 
     setCircleProgressClasses( friend ) {
@@ -114,21 +94,5 @@ export class SearchComponent implements OnInit {
         classes[ `p${friend.correlation}` ] = true
 
         return classes
-    }
-
-    initScrollPageEvent() {
-        const $document = $( document )
-        const $window = $( window )
-        let currentScroll
-
-        $document.ready( () => {
-            $document.on( 'scroll', () => {
-                currentScroll = $document.scrollTop()
-
-                if ( currentScroll >= $document.height() - $window.height() && !this.loadingNextPage ) {
-                    this.getNextFriendsPage()
-                }
-            })
-        })
     }
 }

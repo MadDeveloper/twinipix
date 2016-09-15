@@ -26,6 +26,10 @@
 
         @media screen and(max-width: $max-smartphone-width) {
             margin-top: 10px;
+
+            p {
+                font-size: 14px !important;
+            }
         }
 
         p {
@@ -55,6 +59,10 @@
         }
         &:active {
             background-color: rgba( 255, 255, 255, .7 );
+        }
+
+        @media screen and(max-width: $max-smartphone-width) {
+            font-size: 14px;
         }
     }
 }

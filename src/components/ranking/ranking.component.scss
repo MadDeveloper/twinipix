@@ -28,6 +28,11 @@ img.twin {
 
 button.ranking-button {
     width: 120.5px;
+
+    @media all and(max-width: $max-small-smartphone-width) {
+        width: 95px;
+        font-size: 13px;
+    }
 }
 
 #loader-ranking-item {
