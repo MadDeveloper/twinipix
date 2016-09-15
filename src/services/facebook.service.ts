@@ -75,6 +75,7 @@ export class FacebookService {
                     if ( uid ) {
                         this.getPlayingFriends( uid )
                             .then( friends => {
+                                data.friends = friends
                                 data.friends = _.uniqBy( friends, 'name' )
 
                                 if ( options.onlyFriends ) {
@@ -126,7 +127,7 @@ export class FacebookService {
                     friends = []
                     if ( response.data.length > 0 ) {
                         response.data.forEach( friend => {
-                            friend.correlation = 0
+                            friend.correlation = null
                             friends.push( friend )
                         })
                     }
@@ -136,7 +137,7 @@ export class FacebookService {
                     FB.api( response.paging.next, { accessToken }, response => {
                         if ( response.data.length > 0 ) {
                             response.data.forEach( friend => {
-                                friend.correlation = 0
+                                friend.correlation = null
                                 friends.push( friend )
                             })
                         }

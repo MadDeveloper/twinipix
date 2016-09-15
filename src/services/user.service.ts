@@ -110,14 +110,18 @@ export class UserService {
             const firebaseUser = this.firebase.currentUser()
 
             if ( firebaseUser ) {
-                const userPath = '/users'
+                const facebookUID = firebaseUser.providerData[ 0 ].uid
                 let user = {}
-                user[ `${firebaseUser.providerData[ 0 ].uid}` ] = true
+                user[ facebookUID ] = true
+
+                let userVersion = {}
+                userVersion[ facebookUID ] = 0
 
                 firebase
                     .database()
-                    .ref( userPath )
+                    .ref( '/users' )
                     .update( user )
+                    .then( () => firebase.database().ref( '/versions' ).update( userVersion ) )
                     .then( resolve )
                     .catch( reject )
             } else {

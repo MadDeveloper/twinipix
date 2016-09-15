@@ -53,7 +53,7 @@ export class SearchComponent implements OnInit {
         this.initScrollPageEvent()
         this.userfacebookID = this.facebook.getUID()
         this.ranking
-            .get( this.userfacebookID, { useSnapshot: true } )
+            .get( this.userfacebookID )
             .then( ranking => this.allFriends = this.friends = ranking.friends )
     }
 

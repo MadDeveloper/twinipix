@@ -59,7 +59,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.$loader = $( '#loader-ranking-item' )
         this.toggleLoading( 'enable' )
         this.ranking
-            .get( this.userfacebookID, { useSnapshot: false, save: false, onlyFriends: true, currentUser: false } )
+            .get( this.userfacebookID, { onlyFriends: true, currentUser: false } )
             .then( ranking => {
                 this.toggleLoading( 'disable' )
                 this.allFriends = this.friends = ranking.friends

@@ -19,59 +19,99 @@ export class RankingService {
         private notification: NotificationService
     ) { }
 
-    get( facebookUID, options: { useSnapshot?: boolean; save?: boolean, onlyFriends?: boolean, currentUser?: boolean } = {} ): Promise<{ friends: RankingFriend[]; invitableFriends: RankingFriend[]; }> {
+    get( facebookUID, options: { onlyFriends?: boolean, currentUser?: boolean } = {} ): Promise<{ friends: RankingFriend[]; invitableFriends: RankingFriend[]; }> {
         options = {
-            useSnapshot: undefined !== options.useSnapshot ? options.useSnapshot : false,
-            save: undefined !== options.save ? options.save : true,
             onlyFriends: undefined !== options.onlyFriends ? options.onlyFriends : false,
             currentUser: undefined !== options.currentUser ? options.currentUser : true
         }
 
         return new Promise( ( resolve, reject ) => {
-            const snapshot = this.snapshot()
+            const snapshot      = this.snapshot()
+            const localVersion  = this.getLocalVersion()
 
-            if ( options.useSnapshot ) {
-                resolve( snapshot || [] )
-            } else {
-                this.notification
-                    .notified( facebookUID )
-                    .then( notified => {
+            this.verifyVersion( facebookUID )
+                .then( versionsMatch => {
+                    this.notification
+                        .notified( facebookUID )
+                        .then( notified => {
+                            if ( options.currentUser && !notified && versionsMatch ) {
+                                resolve( snapshot || [] )
+                            } else {
+                                this.facebook
+                                    .getFriends( facebookUID, { onlyFriends: options.onlyFriends } )
+                                    .then( data => {
+                                        let friendsBase: RankingFriend[] = data.friends
+                                        let invitableFriends: RankingFriend[] = data.invitableFriends
 
-                        if ( !notified && snapshot && options.currentUser ) {
-                            resolve( snapshot || [] )
-                        } else {
-                            this.facebook
-                                .getFriends( facebookUID, { onlyFriends: options.onlyFriends } )
-                                .then( data => {
-                                    let friends: RankingFriend[] = data.friends
-                                    let invitableFriends: RankingFriend[] = data.invitableFriends
+                                        this.calculateCorrelations( facebookUID, friendsBase )
+                                            .then( friends => {
+                                                this.sort( friends )
 
-                                    this.calculateCorrelations( facebookUID, friends )
-                                        .then( friends => {
-                                            this.sort( friends )
+                                                let response: { friends: RankingFriend[], invitableFriends?: RankingFriend[], version?: number } = options.onlyFriends ? { friends } : { friends, invitableFriends }
 
-                                            let response = options.onlyFriends ? { friends } : { friends, invitableFriends }
+                                                if ( options.currentUser ) {
+                                                    this.save( response )
 
-                                            if ( options.save ) {
-                                                this.save( response )
-                                            }
-
-                                            if ( notified ) {
-                                                this.notification
-                                                    .remove( facebookUID )
-                                                    .then( () => resolve( response ) )
-                                                    .catch( reject )
-                                            } else {
-                                                resolve( response )
-                                            }
-                                        })
-                                        .catch( reject )
-                                })
-                                .catch( reject )
-                        }
-                    })
-            }
+                                                    if ( notified ) {
+                                                        this.incrementVersion( facebookUID )
+                                                            .then( () => this.notification.remove( facebookUID ) )
+                                                            .then( () => resolve( response ) )
+                                                            .catch( reject )
+                                                    } else {
+                                                        this.getStoredVersion( facebookUID )
+                                                            .then( newVersion => this.updateLocalVersion( newVersion ) )
+                                                            .then( () => resolve( response ) )
+                                                    }
+                                                } else {
+                                                    resolve( response )
+                                                }
+                                            })
+                                            .catch( reject )
+                                    })
+                                    .catch( reject )
+                            }
+                        })
+                })
         })
+    }
+
+    verifyVersion( facebookUID: string ) {
+        return this.getStoredVersion( facebookUID ).then( storedVersion => storedVersion == this.getLocalVersion() )
+    }
+
+    getLocalVersion() {
+        let snapshot = this.snapshot()
+        return snapshot && snapshot.version ? snapshot.version : 0
+    }
+
+    updateLocalVersion( newVersion: number ) {
+        let snapshot = this.snapshot()
+        snapshot.version = newVersion
+        this.save( snapshot )
+    }
+
+    getStoredVersion( facebookUID: string ): Promise<number> {
+        return firebase
+            .database()
+            .ref( `/versions/${facebookUID}` )
+            .once( 'value' )
+            .then( snapshot => snapshot.val() )
+    }
+
+    incrementVersion( facebookUID: string ): Promise<number> {
+        return this.getStoredVersion( facebookUID )
+            .then( storedVersion => {
+                let newUserVersion = {}
+                newUserVersion[ facebookUID ] = storedVersion + 1
+
+                this.updateLocalVersion( storedVersion + 1 )
+
+                return firebase
+                    .database()
+                    .ref( `/versions` )
+                    .update( newUserVersion )
+                    .then( () => newUserVersion[ facebookUID ] )
+            })
     }
 
     snapshot(): any {
@@ -96,21 +136,25 @@ export class RankingService {
                         const userResult = result
                         const numberFriends = friends.length
 
-                        friends.forEach( ( friend, index ) => {
-                            this.getResult( friend.id )
-                                .then( friendResult => {
-                                    this.calculateCorrelation( userResult, friendResult )
-                                        .then( correlation => {
-                                            friend.correlation = correlation
-                                            friends[ index ] = friend
+                        let friendsCorrelated = []
+                        let requests = friends.reduce( ( promiseChain: any, friend: RankingFriend ) => {
+                            return promiseChain.then( () => new Promise( ( resolve, reject ) => {
+                                this.getResult( friend.id )
+                                    .then( friendResult => {
+                                        this.calculateCorrelation( userResult, friendResult )
+                                            .then( correlation => {
+                                                friend.correlation = correlation
+                                                friendsCorrelated.push( friend )
+                                                resolve()
+                                            })
+                                            .catch( reject )
+                                    })
+                                    .catch( reject )
+                            }))
+                        }, Promise.resolve() )
 
-                                            if ( index >= ( numberFriends - 1 ) ) {
-                                                resolve( friends )
-                                            }
-                                        })
-                                        .catch( reject )
-                                })
-                                .catch( reject )
+                        requests.then( () => {
+                            resolve( friendsCorrelated )
                         })
                     })
                     .catch( reject )
@@ -149,16 +193,20 @@ export class RankingService {
 
     sort( ranking: RankingFriend[] ) {
         ranking.sort( ( a: RankingFriend, b: RankingFriend ) => {
-            if ( a.correlation > b.correlation ) {
+            if ( null === a.correlation && null !== b.correlation ) {
+                return 1
+            } else if ( null !== a.correlation && null === b.correlation ) {
                 return -1
-            } else if ( a.correlation < b.correlation || ( null === a.correlation && null !== b.correlation ) ) {
+            } else if ( a.correlation === b.correlation ) {
+                return 0
+            } else if ( a.correlation > b.correlation ) {
+                return -1
+            } else if ( a.correlation < b.correlation ) {
                 return 1
             }
 
             return 0
         })
-
-        return ranking
     }
 
     private compareResults( userResult: string, friendResult: string ): string {

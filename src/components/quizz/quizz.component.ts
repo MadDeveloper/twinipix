@@ -1,8 +1,8 @@
 import { Component,
          OnInit,
-         OnDestroy }                from '@angular/core'
-import { Router }                   from '@angular/router'
-import { DomSanitizationService }   from '@angular/platform-browser'
+         OnDestroy }    from '@angular/core'
+import { Router }       from '@angular/router'
+import { DomSanitizer } from '@angular/platform-browser'
 
 import { TitleService }     from './../../services/title.service'
 import { StorageService }   from './../../services/storage.service'
@@ -32,7 +32,7 @@ export class QuizzComponent implements OnInit {
         private storage: StorageService,
         private quizz: QuizzService,
         private router: Router,
-        private sanitizer: DomSanitizationService
+        private sanitizer: DomSanitizer
     ) { }
 
     ngOnInit() {
