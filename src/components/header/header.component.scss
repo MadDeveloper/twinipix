@@ -1,6 +1,9 @@
 @import '../../styles/conf';
 
 #navbar-top {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+
     .menu-flexbox {
         & {
             display: flex;
@@ -23,6 +26,7 @@
             text-align: center;
             border-top: 3px solid transparent;
             border-bottom: 3px solid transparent;
+            margin: 0 !important;
 
             &:hover, &:active, &.active {
                 background-color: transparent;
