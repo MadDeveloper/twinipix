@@ -5,6 +5,7 @@ import { LangService }      from './../../services/lang.service'
 import { TitleService }     from './../../services/title.service'
 import { AuthService }      from './../../services/auth.service'
 import { TranslateService } from 'ng2-translate/ng2-translate'
+import { UserService }      from './../../services/user.service'
 
 import { Lang } from './../../entities/lang'
 
@@ -23,7 +24,8 @@ export class OthersComponent implements OnInit {
         private router: Router,
         private title: TitleService,
         private auth: AuthService,
-        private translate: TranslateService
+        private translate: TranslateService,
+        private user: UserService
     ) { }
 
     ngOnInit() {
@@ -43,15 +45,25 @@ export class OthersComponent implements OnInit {
     openLangModal( event: Event ) {
         event.preventDefault();
 
-        (<any>$)( '.ui.modal' )
-            .modal({
-                blurring: true
-            })
+        (<any>$)( '.ui.modal.lang' )
+            // .modal({
+            //     blurring: true
+            // })
             .modal( 'show' )
     }
 
     logout() {
         this.auth.logout()
         this.router.navigate([ '/home' ])
+    }
+
+    removeAccountModal() {
+        (<any>$)( '.ui.modal.account' ).modal( 'show' )
+    }
+
+    removeAccount() {
+        this.user
+            .remove()
+            .then( () => this.logout() )
     }
 }

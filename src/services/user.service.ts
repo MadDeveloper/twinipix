@@ -86,7 +86,7 @@ export class UserService {
 
             if ( firebaseUser ) {
                 const userPath = `/users`
-                const facebookUID = firebaseUser.providerData[ 0 ].uid
+                const facebookUID = this.facebook.getUID()
 
                 firebase
                     .database()
@@ -110,23 +110,38 @@ export class UserService {
             const firebaseUser = this.firebase.currentUser()
 
             if ( firebaseUser ) {
-                const facebookUID = firebaseUser.providerData[ 0 ].uid
-                let user = {}
-                user[ facebookUID ] = true
+                const facebookUID = this.facebook.getUID()
 
-                let userVersion = {}
-                userVersion[ facebookUID ] = 0
+                let updates = {}
+                updates[ `/users/${facebookUID}` ] = true
+                updates[ `/version/${facebookUID}` ] = 0
+                updates[ `/correspondences/${firebaseUser.uid}` ] = facebookUID
 
                 firebase
                     .database()
-                    .ref( '/users' )
-                    .update( user )
-                    .then( () => firebase.database().ref( '/versions' ).update( userVersion ) )
+                    .ref()
+                    .update( updates )
                     .then( resolve )
                     .catch( reject )
             } else {
                 reject()
             }
         })
+    }
+
+    remove() {
+        const facebookUID = this.facebook.getUID()
+
+        let updates = {}
+        updates[ `/notified/${facebookUID}` ] = null
+        updates[ `/quizz/results/${facebookUID}` ] = null
+        updates[ `/users/${facebookUID}` ] = null
+        updates[ `/versions/${facebookUID}` ] = null
+
+        return firebase
+            .database()
+            .ref()
+            .update( updates )
+            .then( () => localStorage.clear() )
     }
 }

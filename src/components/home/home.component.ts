@@ -49,9 +49,9 @@ export class HomeComponent implements OnInit {
         event.preventDefault();
 
         (<any>$)( '.ui.modal' )
-            .modal({
-                blurring: true
-            })
+            // .modal({
+            //     blurring: true
+            // })
             .modal( 'show' )
     }
 

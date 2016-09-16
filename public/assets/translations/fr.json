@@ -1,6 +1,9 @@
 {
     "modal": {
-        "changeLangTitle": "Changer la langue"
+        "changeLangTitle": "Changer la langue",
+        "removeAccountConfirmation": "Supprimer",
+        "cancel": "Annuler",
+        "removeAccountText": "Êtes-vous sûr de vouloir supprimer le compte ? Cette action est immédiate et irreversible, toutes les données seront effacées."
     },
     "home": {
         "discoverYourTwins": "Tes Twins sont sur Facebook, découvre les !",
@@ -21,6 +24,7 @@
         "conditions": "Conditions d'utilisation",
         "confidentiality": "Confidentialité",
         "about": "A propos",
+        "removeAccount": "Supprimer le compte",
         "logOutButton": "Se déconnecter"
     },
     "about": {

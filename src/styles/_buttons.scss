@@ -22,6 +22,15 @@
             background-color: #DE644A;
         }
     }
+
+    &.danger {
+        background-color: rgb(236,100,75);
+        color: white !important;
+
+        &:hover {
+            background-color: rgb(217, 30, 24);
+        }
+    }
 }
 
 .back {

@@ -1,6 +1,9 @@
 {
     "modal": {
-        "changeLangTitle": "Change language"
+        "changeLangTitle": "Change language",
+        "removeAccountConfirmation": "Remove",
+        "cancel": "Cancel",
+        "removeAccountText": "Are you sure you want to delete the account? This action is immediate and irreversible, all data will be erased."
     },
     "home": {
         "discoverYourTwins": "Your Twins are on Facebook, discover them!",
@@ -21,6 +24,7 @@
         "conditions": "Conditions",
         "confidentiality": "Confidentiality",
         "about": "About",
+        "removeAccount": "Remove account",
         "logOutButton": "Log Out"
     },
     "about": {
