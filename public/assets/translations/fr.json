@@ -42,7 +42,7 @@
         "see": "Voir"
     },
     "profile": {
-        "twinsWithYouAs": "Twins avec toi à",
+        "twinsWithYouAs": "est twins avec toi à",
         "indistinguable": "Wahou ! Indistinguables !",
         "hisTwins": "Les twins de",
         "shareNoFriends": "ne partage pas ses amis sur Twinipix"
@@ -63,5 +63,12 @@
         "house": "La maison de tes rêves",
         "mythical": "Ta créature mystique préférée",
         "romantic": "Le lieu le plus romantique à tes yeux"
+    },
+    "correlations": {
+        "different": "La diférence c'est bien aussi !",
+        "complete": "Se compléter c'est un jeu de patience.",
+        "attraction": "L'attraction c'est nos pôles d'intérêt.",
+        "direction": "On pointe dans la même direction !",
+        "twins": "Nous sommes twins !"
     }
 }

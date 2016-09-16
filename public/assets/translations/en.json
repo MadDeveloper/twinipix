@@ -42,7 +42,7 @@
         "see": "See"
     },
     "profile": {
-        "twinsWithYouAs": "Twins with you as",
+        "twinsWithYouAs": "is twins with you as",
         "indistinguable": "Wahou ! Indistinguables !",
         "hisTwins": "Twins of",
         "shareNoFriends": "doesn't share friends on Twinipix"
@@ -63,5 +63,12 @@
         "house": "Your dreaming house",
         "mythical": "Your favorite mystical creature",
         "romantic": "The most romantic place for you"
+    },
+    "correlations": {
+        "different": "The difference is good too!",
+        "complete": "Complete each other is a game of patience.",
+        "attraction": "The attraction is our areas of interest.",
+        "direction": "One point in the same direction!",
+        "twins": "We are twins!"
     }
 }

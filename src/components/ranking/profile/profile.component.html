@@ -5,18 +5,41 @@
         <div>{{ profile.name }}</div>
     </h2>
     <div class="flex items-center justify-center column">
-        <span class="margin bottom">{{ 'profile.twinsWithYouAs' | translate }}</span>
-        <div *ngIf="100 == profile.correlation">
-            <img class="ui avatar image twin" src="/public/assets/images/logo.png">
+        <span class="margin bottom large">{{ 'profile.twinsWithYouAs' | translate }}</span>
+        <div *ngIf="100 == profile.correlation" class="flex items-center column">
+            <img class="image correlation twins" src="/public/assets/images/logo.png">
+            <span class="display block margin top large">{{ 'correlations.twins' | translate }}</span>
         </div>
         <div *ngIf="null === profile.correlation || 100 > profile.correlation">
-            <div class="relative">
+            <div class="relative flex items-center justify-center">
                 <div [ngClass]="setProfileCircleProgressClasses()">
                   <span>{{ null !== profile.correlation ? profile.correlation : '?' }} %</span>
                   <div class="slice">
                     <div class="bar"></div>
                     <div class="fill"></div>
                   </div>
+                </div>
+            </div>
+            <div *ngIf="null !== profile.correlation" class="margin top medium text-center">
+                <!-- different correlation -->
+                <div *ngIf="profile.correlation < 30" class="flex items-center">
+                    <img src="/public/assets/images/yin-yang.svg" class="image correlation margin right">
+                    <span>{{ 'correlations.different' | translate }}</span>
+                </div>
+                <!-- complete correlation -->
+                <div *ngIf="profile.correlation >= 30 && profile.correlation < 50" class="flex items-center">
+                    <img src="/public/assets/images/puzzle.svg" class="image correlation margin right">
+                    <span>{{ 'correlations.complete' | translate }}</span>
+                </div>
+                <!-- attraction correlation -->
+                <div *ngIf="profile.correlation >= 50 && profile.correlation < 70" class="flex items-center">
+                    <img src="/public/assets/images/magnet.svg" class="image correlation margin right">
+                    <span>{{ 'correlations.attraction' | translate }}</span>
+                </div>
+                <!-- direction twins! -->
+                <div *ngIf="profile.correlation >= 70 && profile.correlation < 90" class="flex items-center">
+                    <img src="/public/assets/images/compass.svg" class="image correlation margin right">
+                    <span>{{ 'correlations.direction' | translate }}</span>
                 </div>
             </div>
         </div>
