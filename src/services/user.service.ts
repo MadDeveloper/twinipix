@@ -112,15 +112,12 @@ export class UserService {
             if ( firebaseUser ) {
                 const facebookUID = this.facebook.getUID()
 
-                let updates = {}
-                updates[ `/users/${facebookUID}` ] = true
-                updates[ `/version/${facebookUID}` ] = 0
-                updates[ `/correspondences/${firebaseUser.uid}` ] = facebookUID
-
                 firebase
                     .database()
-                    .ref()
-                    .update( updates )
+                    .ref( `/correspondences/${firebaseUser.uid}` )
+                    .set( facebookUID )
+                    .then( () => firebase.database().ref( `/users/${facebookUID}` ).set( true ) )
+                    .then( () => firebase.database().ref( `/versions/${facebookUID}` ).set( 1 ) )
                     .then( resolve )
                     .catch( reject )
             } else {
@@ -132,16 +129,14 @@ export class UserService {
     remove() {
         const facebookUID = this.facebook.getUID()
 
-        let updates = {}
-        updates[ `/notified/${facebookUID}` ] = null
-        updates[ `/quizz/results/${facebookUID}` ] = null
-        updates[ `/users/${facebookUID}` ] = null
-        updates[ `/versions/${facebookUID}` ] = null
-
         return firebase
             .database()
-            .ref()
-            .update( updates )
+            .ref( `/notified/${facebookUID}` )
+            .set( null )
+            .then( () => firebase.database().ref( `/versions/${facebookUID}` ).set( null ) )
+            .then( () => firebase.database().ref( `/quizz/results/${facebookUID}` ).set( null ) )
+            .then( () => firebase.database().ref( `/users/${facebookUID}` ).set( null ) )
+            .then( () => firebase.database().ref( `/correspondences/${facebookUID}` ).set( null ) )
             .then( () => localStorage.clear() )
     }
 }
