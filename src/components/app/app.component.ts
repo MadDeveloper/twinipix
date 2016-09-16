@@ -19,6 +19,8 @@ export class AppComponent implements OnInit {
     @Input()
     isHomePage: boolean
 
+    private currentPage: string = null
+
     constructor(
         private router: Router,
         private translate: TranslateService,
@@ -53,6 +55,7 @@ export class AppComponent implements OnInit {
 
                 this.userLiked = this.user.hasLiked()
                 this.isHomePage = '/home' === event.url || '/' === event.url
+                this.currentPage = event.url
             })
 
         /*
@@ -68,7 +71,53 @@ export class AppComponent implements OnInit {
             }
         })
 
-        $( document ).ready( () => $window.trigger( 'resize' ) )
-        // $window.on( 'beforeunload', () => this.auth.logout() )
+        $( document ).ready( () => {
+            $window.trigger( 'resize' )
+
+            /*
+             * Hammer (menu swipe)
+             */
+            const body  = new Hammer.Manager( document.getElementsByTagName( 'main' )[ 0 ], {
+                touchAction: 'auto',
+                recognizers: [
+                    [ Hammer.Swipe, { direction: Hammer.DIRECTION_HORIZONTAL } ],
+                ]
+            })
+            body.on( 'swipeleft swiperight', event => {
+                if ( this.user.isLogged() && this.currentPage ) {
+                    const swipeLeft     = 'swiperight' === event.type
+                    const swipeRight    = 'swipeleft' === event.type
+
+                    switch( this.currentPage ) {
+                        case '/search':
+                            if ( swipeRight ) {
+                                this.router.navigate([ '/ranking' ])
+                            }
+                            break
+                        case '/ranking':
+                            if ( swipeRight ) {
+                                this.router.navigate([ '/others' ])
+                            } else if ( swipeLeft ) {
+                                this.router.navigate([ '/search' ])
+                            }
+                            break
+                        case '/others':
+                            if ( swipeLeft ) {
+                                this.router.navigate([ '/ranking' ])
+                            }
+                            break
+                        case '/profile':
+                        case '/help':
+                        case '/conditions':
+                        case '/confidentiality':
+                        case '/about':
+                            if ( swipeLeft ) {
+                                window.history.back()
+                            }
+                            break
+                    }
+                }
+            })
+        })
     }
 }
