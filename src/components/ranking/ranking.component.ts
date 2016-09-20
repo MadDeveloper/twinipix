@@ -3,6 +3,7 @@
  */
 import { Component,
          OnInit,
+         OnDestroy,
          Input }            from '@angular/core'
 import { Router }           from '@angular/router'
 import { TranslateService } from 'ng2-translate/ng2-translate'
@@ -27,7 +28,7 @@ import { RankingFriend } from './../../entities/ranking-friend'
     templateUrl: 'ranking.component.html',
     styleUrls: [ 'ranking.component.css' ]
 })
-export class RankingComponent implements OnInit {
+export class RankingComponent implements OnInit, OnDestroy {
     friends: RankingFriend[] = []
     invitableFriends: RankingFriend[] = []
 
@@ -36,6 +37,7 @@ export class RankingComponent implements OnInit {
     private startInvitableFriendsIndex = 0
     private allFriends: RankingFriend[] = []
     private allInvitableFriends: RankingFriend[] = []
+    private invitableFriendsObserver: MutationObserver
     private remainFriendsToDisplay: boolean = false
     private remainInvitableFriendsToDisplay: boolean = false
 
@@ -43,6 +45,7 @@ export class RankingComponent implements OnInit {
 
     private $loader: JQuery
     private loadingNextPage: boolean = false
+    private clickToSeeInvitableFriends: boolean = false
 
     constructor(
         private title: TitleService,
@@ -70,6 +73,11 @@ export class RankingComponent implements OnInit {
             .catch( error => {
                 this.toggleLoading( 'disable' )
             })
+        this.invitableFriendsHandler()
+    }
+
+    ngOnDestroy() {
+
     }
 
     share( friend: RankingFriend ) {
@@ -174,8 +182,43 @@ export class RankingComponent implements OnInit {
         }
     }
 
+    seeInvitableFriends() {
+        const numberOfFriends = this.allFriends.length
+
+        if ( numberOfFriends < this.friendsPerPage ) {
+            $( 'html, body' ).animate({ scrollTop: $( '.invitable-friend' ).first().offset().top })
+        } else {
+            this.friends = this.allFriends
+
+            if ( 0 === this.startInvitableFriendsIndex ) {
+                this.getNextInvitableFriendsPage()
+            }
+
+            this.clickToSeeInvitableFriends = true
+        }
+    }
+
+    invitableFriendsHandler() {
+        this.invitableFriendsObserver = new MutationObserver( ( mutations: MutationRecord[] ) => {
+            if( this.clickToSeeInvitableFriends ) {
+                $( 'html, body' ).animate({ scrollTop: $( '.invitable-friend' ).first().offset().top })
+                this.clickToSeeInvitableFriends = false
+            }
+        })
+
+        this.invitableFriendsObserver.observe( document.getElementById( 'friends-container' ), {
+            attributes: true,
+            childList: true,
+            characterData: true
+        })
+    }
+
     numberOfInvitableFriends() {
         return this.allInvitableFriends.length
+    }
+
+    numberOfFriends() {
+        return this.friends.length
     }
 
     setCircleProgressClasses( friend ) {

@@ -1,9 +1,9 @@
-<div class="padding large top bottom right flex items-center justify-center">
+<div *ngIf="numberOfInvitableFriends() > 0" class="padding large top bottom right flex items-center justify-center">
     <span class="margin large right">{{ 'ranking.friendsRemain' | translate }} {{ numberOfInvitableFriends() }} {{ 'ranking.friendsToTest' | translate }}</span>
-    <button class="button default"><i class="unhide icon"></i> {{ 'ranking.see' | translate }}</button>
+    <button *ngIf="numberOfFriends() > 0" class="button default" (click)="seeInvitableFriends()"><i class="unhide icon"></i> {{ 'ranking.see' | translate }}</button>
 </div>
 
-<div class="ui middle aligned divided list large background white border solid grey radius margin no-vertical main-padding-vertical main-padding-horizontal">
+<div id="friends-container" class="ui middle aligned divided list large background white border solid grey radius margin no-vertical main-padding-vertical main-padding-horizontal">
   <!-- Friends -->
   <div *ngFor="let friend of friends" class="item flex items-center space-between">
     <div class="content identity clickable" (click)="gotoProfile( friend )">
@@ -28,7 +28,7 @@
   </div>
 
   <!-- Invitable friends -->
-  <div *ngFor="let friend of invitableFriends" class="item flex items-center space-between">
+  <div *ngFor="let friend of invitableFriends" class="item flex items-center space-between invitable-friend">
     <div class="content identity">
       <img class="ui avatar image" src="{{ friend.picture.data.url }}">
       <span class="name">{{ friend.name }}</span>

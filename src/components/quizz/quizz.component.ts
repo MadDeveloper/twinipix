@@ -24,7 +24,7 @@ export class QuizzComponent implements OnInit {
     ipixFour: any
     choices: any[] = []
 
-    private ipixsObserver: any
+    private ipixsObserver: MutationObserver
     private quizzCompleted: boolean = false
 
     constructor(
@@ -90,6 +90,9 @@ export class QuizzComponent implements OnInit {
         }
     }
 
+    /**
+     * resizeQuestionHandler - This method permits to resize question for it sub components ipix
+     */
     resizeQuestionHandler() {
         let $window = $( window )
 
