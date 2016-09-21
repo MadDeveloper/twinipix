@@ -77,13 +77,13 @@ export class AppComponent implements OnInit {
             /*
              * Hammer (menu swipe)
              */
-            const body  = new Hammer.Manager( document.getElementsByTagName( 'main' )[ 0 ], {
+            const main  = new Hammer.Manager( document.getElementsByTagName( 'main' )[ 0 ], {
                 touchAction: 'auto',
                 recognizers: [
                     [ Hammer.Swipe, { direction: Hammer.DIRECTION_HORIZONTAL } ],
                 ]
             })
-            body.on( 'swipeleft swiperight', event => {
+            main.on( 'swipeleft swiperight', event => {
                 if ( this.user.isLogged() && this.currentPage ) {
                     const swipeLeft     = 'swiperight' === event.type
                     const swipeRight    = 'swipeleft' === event.type
