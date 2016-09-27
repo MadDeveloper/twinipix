@@ -53,7 +53,8 @@ export class RankingComponent implements OnInit, OnDestroy {
         private storage: StorageService,
         private ranking: RankingService,
         private router: Router,
-        private facebook: FacebookService
+        private facebook: FacebookService,
+        private firebase: FirebaseService
     ) { }
 
     ngOnInit() {
@@ -81,10 +82,36 @@ export class RankingComponent implements OnInit, OnDestroy {
     }
 
     share( friend: RankingFriend ) {
+        const correlation   = friend.correlation
+        const lang          = this.translate.currentLang
+        let picture         = 'http://twinipix.com/public/assets/images/'
+
+        if ( correlation < 30 ) {
+            picture = `yin-yang-${lang}.svg`
+        } else if ( correlation >= 30 && correlation < 50 ) {
+            picture = `puzzle-${lang}.svg`
+        } else if ( correlation >= 50 && correlation < 70 ) {
+            picture = `balance-${lang}.svg`
+        } else if ( correlation >= 70 && correlation < 90 ) {
+            picture = `harmony-${lang}.svg`
+        } else if ( correlation >= 90 && correlation <= 99 ) {
+            picture = 'twins.svg'
+        } else {
+            picture = `perfect-twins-${lang}.svg`
+        }
+
         FB.ui({
-            method: 'share',
-            mobile_iframe: true,
-            href: 'http://twinipix.com'
+            method: 'feed',
+            display: 'iframe',
+            caption: this.translate.instant( 'sharing.title', {
+                userName: this.firebase.currentUser().displayName,
+                friendName: friend.name,
+                correlation: friend.correlation
+            }),
+            description: this.translate.instant( 'sharing.doTheQuizz' ),
+            picture,
+            link: 'http://twinipix.com',
+            name: 'Twinipix'
         }, response => {
             console.log( response )
         })
@@ -94,7 +121,7 @@ export class RankingComponent implements OnInit, OnDestroy {
         FB.ui({
             method: 'apprequests',
             title: 'Twinipix',
-            message: 'Come try Twinipix in order to compare us!',
+            message: this.translate.instant( 'invite.doYourQuizz', { name: friend.name } ),
             to: friend.id
         }, response => console.log( response ))
     }

@@ -41,15 +41,20 @@
     },
     "ranking": {
         "tabTitle": "Ranking",
-        "friendsRemain": "You still have",
-        "friendsToTest": "friends to test",
+        "friendsRemain": "You still have {{ numberFriends }} friends to test!",
         "see": "See"
     },
     "profile": {
         "twinsWithYouAs": "is twins with you as",
-        "indistinguable": "Wahou ! Indistinguables !",
-        "hisTwins": "Twins of",
-        "shareNoFriends": "doesn't share friends on Twinipix"
+        "hisTwins": "{{ name }} twins",
+        "shareNoFriends": "{{ name }} doesn't share friends on Twinipix"
+    },
+    "sharing": {
+        "title": "{{ userName }} and {{ friendName }} are twins in {{ correlation }}%!",
+        "doTheQuizz": "You also do the quiz and discover the friends that look you most! Click here!"
+    },
+    "invite": {
+        "doYourQuizz": "Hello {{ name }}! Do your quizz Twinipix to see if we like!"
     },
     "button": {
         "share": "Share",

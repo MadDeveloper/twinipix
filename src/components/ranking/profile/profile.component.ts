@@ -5,6 +5,7 @@ import { Component,
          OnInit,
          OnDestroy }                from '@angular/core'
 import { Router, ActivatedRoute }   from '@angular/router'
+import { TranslateService }         from 'ng2-translate/ng2-translate'
 
 /*
  * Services
@@ -12,6 +13,7 @@ import { Router, ActivatedRoute }   from '@angular/router'
 import { StorageService }   from './../../../services/storage.service'
 import { RankingService }   from './../../../services/ranking.service'
 import { UserService }      from './../../../services/user.service'
+import { FirebaseService }  from './../../../services/firebase.service'
 import { TitleService }     from './../../../services/title.service'
 
 /*
@@ -43,9 +45,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
     constructor(
         private title: TitleService,
+        private translate: TranslateService,
         private storage: StorageService,
         private ranking: RankingService,
         private user: UserService,
+        private firebase: FirebaseService,
         private router: Router,
         private route: ActivatedRoute
     ) { }
@@ -72,10 +76,36 @@ export class ProfileComponent implements OnInit, OnDestroy {
     }
 
     share() {
+        const correlation   = this.profile.correlation
+        const lang          = this.translate.currentLang
+        let picture         = 'http://twinipix.com/public/assets/images/'
+
+        if ( correlation < 30 ) {
+            picture = `yin-yang-${lang}.svg`
+        } else if ( correlation >= 30 && correlation < 50 ) {
+            picture = `puzzle-${lang}.svg`
+        } else if ( correlation >= 50 && correlation < 70 ) {
+            picture = `balance-${lang}.svg`
+        } else if ( correlation >= 70 && correlation < 90 ) {
+            picture = `harmony-${lang}.svg`
+        } else if ( correlation >= 90 && correlation <= 99 ) {
+            picture = 'twins.svg'
+        } else {
+            picture = `perfect-twins-${lang}.svg`
+        }
+
         FB.ui({
-            method: 'share',
-            mobile_iframe: true,
-            href: 'http://twinipix.com'
+            method: 'feed',
+            display: 'iframe',
+            caption: this.translate.instant( 'sharing.title', {
+                userName: this.firebase.currentUser().displayName,
+                friendName: this.profile.name,
+                correlation: this.profile.correlation
+            }),
+            description: this.translate.instant( 'sharing.doTheQuizz' ),
+            picture,
+            link: 'http://twinipix.com',
+            name: 'Twinipix'
         }, response => {
             console.log( response )
         })

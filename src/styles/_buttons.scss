@@ -15,11 +15,11 @@
     }
 
     &.important {
-        background-color: #F58D77;
+        background-color: $twins-color;
         color: white !important;
 
         &:hover {
-            background-color: #DE644A;
+            background-color: $darker-twins-color;
         }
     }
 

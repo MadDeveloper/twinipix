@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 18.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Calque_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve">
+<circle fill="#1A7BD7" cx="256" cy="256" r="150"/>
+<g>
+	
+		<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="-1034.0048" y1="329.2408" x2="-888.314" y2="103.7775" gradientTransform="matrix(1 0 0 -1 1244 514)">
+		<stop  offset="0" style="stop-color:#FFFFFF"/>
+		<stop  offset="0.2174" style="stop-color:#FFFFFF"/>
+		<stop  offset="0.3032" style="stop-color:#F6F9FD"/>
+		<stop  offset="0.3657" style="stop-color:#EBF2FA"/>
+		<stop  offset="0.417" style="stop-color:#DAE6F3"/>
+		<stop  offset="0.4614" style="stop-color:#C3D9EB"/>
+		<stop  offset="0.5009" style="stop-color:#A6C6E3"/>
+		<stop  offset="0.537" style="stop-color:#86B1DA"/>
+		<stop  offset="0.5692" style="stop-color:#6198CE"/>
+		<stop  offset="0.5942" style="stop-color:#3D82C4"/>
+		<stop  offset="0.6762" style="stop-color:#164C9C"/>
+	</linearGradient>
+	<path fill="url(#SVGID_1_)" d="M191,278.9c-10.6-35,11.5-47.4,33.6-41.6c1.2-0.1,4.2,26.3,18.8,56.4c12.1,26,23,32.7,30.9,29.3
+		c12.7-5,11.2-26.6,8.8-38.2c-0.4-1.7,8.6-4.4,10.7,11.8c2,18.2-6.7,50.2-30.8,58.1C235.5,363.3,202.1,316,191,278.9z M259.1,214.7
+		c-7.9,1.6-26.4-11.1-27.8-26.2c-1.5-15.6,11.8-28.8,26.5-31.8c15.3-3.1,29,4.6,31,20.1C290.2,191.9,267,213,259.1,214.7z"/>
+	<path fill="#FFFFFF" d="M249.1,354.6c-24.4-9.2-24.8-20.8-30.3-29c-5.2-7.6,12.3,5,13.6,6c13.6,10.3-5.1-4.8,7.5-1.7
+		c4.4,1.1,6.9-6.2,12.4-11.3c5-4.6,10.5-12.6,16.3-25c14.6-30.2,17.6-56.5,18.8-56.4c22.1-5.7,44.2,6.6,33.6,41.6
+		C309.9,316,276,364.8,249.1,354.6z"/>
+	<path fill="#FFFFFF" d="M253.9,317.2c0,0-26.6,29.4-58.3-25.2c0,0,20.3,52.5,52.6,62.3c8-5.7,10.9-9.5,10.9-9.5"/>
+</g>
+<line fill="none" x1="0" y1="512" x2="0" y2="434.5"/>
+<line fill="none" x1="512" y1="434.5" x2="512" y2="512"/>
+</svg>

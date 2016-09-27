@@ -7,7 +7,7 @@
     <div class="flex items-center justify-center column">
         <span class="margin bottom large">{{ 'profile.twinsWithYouAs' | translate }}</span>
         <div *ngIf="100 == profile.correlation" class="flex items-center column">
-            <img class="image correlation twins" src="/public/assets/images/logo.png">
+            <img class="image correlation twins" src="/public/assets/images/logo.svg">
             <span class="display block margin top large">{{ 'correlations.twins' | translate }}</span>
         </div>
         <div *ngIf="null === profile.correlation || 100 > profile.correlation">
@@ -33,12 +33,17 @@
                 </div>
                 <!-- attraction correlation -->
                 <div *ngIf="profile.correlation >= 50 && profile.correlation < 70" class="flex items-center">
-                    <img src="/public/assets/images/magnet.svg" class="image correlation margin right">
+                    <img src="/public/assets/images/balance.svg" class="image correlation margin right">
                     <span>{{ 'correlations.attraction' | translate }}</span>
                 </div>
                 <!-- direction twins! -->
                 <div *ngIf="profile.correlation >= 70 && profile.correlation < 90" class="flex items-center">
-                    <img src="/public/assets/images/compass.svg" class="image correlation margin right">
+                    <img src="/public/assets/images/harmony.svg" class="image correlation margin right">
+                    <span>{{ 'correlations.direction' | translate }}</span>
+                </div>
+                <!-- twins! -->
+                <div *ngIf="profile.correlation >= 90 && profile.correlation < 100" class="flex items-center">
+                    <img src="/public/assets/images/twins.svg" class="image correlation margin right">
                     <span>{{ 'correlations.direction' | translate }}</span>
                 </div>
             </div>
@@ -49,11 +54,11 @@
     </div>
 </div>
 
-<h4 class="margin top bottom large main-padding-horizontal">{{ 'profile.hisTwins' | translate }} {{ profile.name }}</h4>
+<h4 class="margin top bottom large main-padding-horizontal">{{ 'profile.hisTwins' | translate: { name: profile.name } }}</h4>
 <div class="ui middle aligned divided list large background white border solid grey radius margin no-vertical main-padding-vertical main-padding-horizontal">
   <!-- No Friends -->
   <div *ngIf="friendsLoaded && 0 === allFriends.length" class="item flex items-center justify-center margin top large">
-    <h4>{{ profile.name }} {{ 'profile.shareNoFriends' | translate }}</h4>
+    <h4>{{ 'profile.shareNoFriends' | translate: { name: profile.name } }}</h4>
   </div>
 
   <!-- Friends -->

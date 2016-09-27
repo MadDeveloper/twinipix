@@ -1,5 +1,5 @@
 <div *ngIf="numberOfInvitableFriends() > 0" class="padding large top bottom right flex items-center justify-center">
-    <span class="margin large right">{{ 'ranking.friendsRemain' | translate }} {{ numberOfInvitableFriends() }} {{ 'ranking.friendsToTest' | translate }}</span>
+    <span class="margin large right">{{ 'ranking.friendsRemain' | translate: { numberFriends: numberOfInvitableFriends() } }}</span>
     <button *ngIf="numberOfFriends() > 0" class="button default" (click)="seeInvitableFriends()"><i class="unhide icon"></i> {{ 'ranking.see' | translate }}</button>
 </div>
 
