@@ -1,6 +1,13 @@
-<div *ngIf="numberOfInvitableFriends() > 0" class="padding large top bottom right flex items-center justify-center">
-    <span class="margin large right">{{ 'ranking.friendsRemain' | translate: { numberFriends: numberOfInvitableFriends() } }}</span>
-    <button *ngIf="numberOfFriends() > 0" class="button default" (click)="seeInvitableFriends()"><i class="unhide icon"></i> {{ 'ranking.see' | translate }}</button>
+<div class="padding large top bottom right flex items-center justify-center">
+    <button class="button default" (click)="inviteFriends()"><i class="plus icon"></i> {{ 'ranking.invitAllFriends' | translate }}</button>
+</div>
+
+<div class="ui text-center search margin top bottom right left large">
+  <div id="search-box-container" class="ui icon input">
+    <input #searchBox (keyup)="search( searchBox.value )" class="prompt" type="text" placeholder="Search people...">
+    <i class="search icon"></i>
+  </div>
+  <div class="results"></div>
 </div>
 
 <div id="friends-container" class="ui middle aligned divided list large background white border solid grey radius margin no-vertical main-padding-vertical main-padding-horizontal">

@@ -1,5 +1,13 @@
 @import '../../styles/conf';
 
+#search-box-container {
+    width: $normal-screen-body-width;
+
+    @media screen and(max-width: $max-smartphone-width) {
+        width: 100%;
+    }
+}
+
 .identity {
     width: 235px;
 

@@ -6,7 +6,6 @@ import { ProfileResolveService }    from './services/profile-resolve.service'
 import { QuizzGuardService }        from './services/quizz-guard.service'
 
 import { HomeComponent }            from './components/home/home.component'
-import { SearchComponent }          from './components/search/search.component'
 import { RankingComponent }         from './components/ranking/ranking.component'
 import { ProfileComponent }         from './components/ranking/profile/profile.component'
 import { QuizzComponent }           from './components/quizz/quizz.component'
@@ -24,11 +23,6 @@ const routes: Routes = [
         resolve: {
             facebookUserLogged: HomeResolveService
         }
-    },
-    {
-        path: 'search',
-        component: SearchComponent,
-        canActivate: [ AuthGuardService, QuizzGuardService ]
     },
     {
         path: 'ranking',

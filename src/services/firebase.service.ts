@@ -21,20 +21,13 @@ export class FirebaseService {
         return this.storage.defined( 'user.firebase' ) ? this.storage.get( 'user.firebase' ).user : null
     }
 
-    login(): Promise<any> {
-        return new Promise( ( resolve, reject ) => {
-            const provider = new firebase.auth.FacebookAuthProvider()
-            provider.addScope( 'user_friends' )
+    login() {
+        const provider = new firebase.auth.FacebookAuthProvider()
+        provider.addScope( 'user_friends' )
 
-            firebase
-                .auth()
-                .signInWithPopup( provider )
-                .then( result => {
-                    this.storage.save( 'user.firebase', result )
-                    resolve()
-                })
-                .catch( reject )
-        })
+        this.storage.save( 'pendingSignIn', true )
+
+        firebase.auth().signInWithRedirect( provider )
     }
 
     logout(): Promise<any> {

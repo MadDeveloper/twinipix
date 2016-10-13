@@ -42,7 +42,8 @@
     "ranking": {
         "tabTitle": "Ranking",
         "friendsRemain": "You still have {{ numberFriends }} friends to test!",
-        "see": "See"
+        "see": "See",
+        "invitAllFriends": "Invite my friends"
     },
     "profile": {
         "twinsWithYouAs": "is twins with you as",
@@ -54,7 +55,7 @@
         "doTheQuizz": "You also do the quiz and discover the friends that look you most! Click here!"
     },
     "invite": {
-        "doYourQuizz": "Hello {{ name }}! Do your quizz Twinipix to see if we like!"
+        "doYourQuizz": "Hello! Come do your quizz Twinipix to see if we like!"
     },
     "button": {
         "share": "Share",

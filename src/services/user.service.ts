@@ -43,6 +43,12 @@ export class UserService {
                     resolve( user )
                 }
             })
+            .catch( error => {
+                user.logged = false
+                this.storage.save( 'user', user )
+
+                return error
+            })
         })
     }
 

@@ -5,7 +5,6 @@ import { HttpModule, Http }     from '@angular/http'
 import { TranslateModule,
          TranslateLoader,
          TranslateStaticLoader} from 'ng2-translate/ng2-translate'
-
 /*
  * Config
  */
@@ -46,7 +45,6 @@ import { FooterComponent }  from './components/footer/footer.component'
  * App Components
  */
 import { HomeComponent }            from './components/home/home.component'
-import { SearchComponent }          from './components/search/search.component'
 import { RankingComponent }         from './components/ranking/ranking.component'
 import { ProfileComponent }         from './components/ranking/profile/profile.component'
 import { QuizzComponent }           from './components/quizz/quizz.component'
@@ -60,6 +58,13 @@ import { AboutComponent }           from './components/others/about/about.compon
  * Pipes
  */
 import { KeysPipe } from './pipes/keys.pipe'
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBMOvPjY6TgR2stHfun6t-C8i9JWsAiP1k",
+  authDomain: "twinipix-eaccb.firebaseapp.com",
+  databaseURL: "https://twinipix-eaccb.firebaseio.com",
+  storageBucket: "twinipix-eaccb.appspot.com"
+}
 
 @NgModule({
     imports: [
@@ -78,7 +83,6 @@ import { KeysPipe } from './pipes/keys.pipe'
         HeaderComponent,
         FooterComponent,
         HomeComponent,
-        SearchComponent,
         RankingComponent,
         ProfileComponent,
         QuizzComponent,

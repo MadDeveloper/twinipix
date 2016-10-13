@@ -72,15 +72,16 @@ export class FacebookService {
                                     data.invitableFriends = []
                                     resolve( data )
                                 } else {
-                                    FB.api( `/${uid}/invitable_friends`, { accessToken }, response => {
-                                        this.extractPageFriends( response, accessToken, [] )
-                                            .then( invitableFriends => {
-                                                // _.forEach( invitableFriends, friend => console.log( friend.name ) )
-                                                data.invitableFriends = _.uniqBy( invitableFriends, 'name' )
-                                                resolve( data )
-                                            })
-                                            .catch( reject )
-                                    })
+                                    resolve( data )
+                                    // FB.api( `/${uid}/invitable_friends`, { accessToken }, response => {
+                                    //     this.extractPageFriends( response, accessToken, [] )
+                                    //         .then( invitableFriends => {
+                                    //             // _.forEach( invitableFriends, friend => console.log( friend.name ) )
+                                    //             data.invitableFriends = _.uniqBy( invitableFriends, 'name' )
+                                    //             resolve( data )
+                                    //         })
+                                    //         .catch( reject )
+                                    // })
                                 }
                             })
                             .catch( reject )

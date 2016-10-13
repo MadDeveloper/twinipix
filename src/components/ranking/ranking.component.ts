@@ -68,13 +68,13 @@ export class RankingComponent implements OnInit, OnDestroy {
             .get( this.userfacebookID )
             .then( ranking => {
                 this.allFriends = ranking.friends.slice( 0 )
-                this.allInvitableFriends = ranking.invitableFriends.slice( 0 )
+                // this.allInvitableFriends = ranking.invitableFriends.slice( 0 )
                 this.getNextFriendsPage()
             })
             .catch( error => {
                 this.toggleLoading( 'disable' )
             })
-        this.invitableFriendsHandler()
+        // this.invitableFriendsHandler()
     }
 
     ngOnDestroy() {
@@ -101,7 +101,7 @@ export class RankingComponent implements OnInit, OnDestroy {
         }
 
         FB.ui({
-            method: 'feed',
+            method: 'share',
             display: 'iframe',
             caption: this.translate.instant( 'sharing.title', {
                 userName: this.firebase.currentUser().displayName,
@@ -110,21 +110,37 @@ export class RankingComponent implements OnInit, OnDestroy {
             }),
             description: this.translate.instant( 'sharing.doTheQuizz' ),
             picture,
-            link: 'http://twinipix.com',
+            href: 'http://twinipix.com',
             name: 'Twinipix'
-        }, response => {
-            console.log( response )
         })
     }
 
-    invite( friend: RankingFriend ) {
+    inviteFriends() {
         FB.ui({
-            method: 'apprequests',
-            title: 'Twinipix',
-            message: this.translate.instant( 'invite.doYourQuizz', { name: friend.name } ),
-            to: friend.id
-        }, response => console.log( response ))
+            method: 'share',
+            display: 'iframe',
+            caption: 'Twinipix',
+            description: this.translate.instant( 'invite.doYourQuizz' ),
+            picture: 'http://twinipix.com/assets/logo.png',
+            href: 'http://twinipix.com',
+            name: 'Twinipix'
+        })
     }
+
+    search( term: string ) {
+        term = term.trim().toLowerCase()
+        this.friends = this.allFriends.filter( friend => -1 !== friend.name.toLowerCase().indexOf( term ) )
+        // this.invitableFriends = this.allInvitableFriends.filter( friend => -1 !== friend.name.toLowerCase().indexOf( term ) )
+    }
+
+    // invite( friend: RankingFriend ) {
+    //     FB.ui({
+    //         method: 'apprequests',
+    //         title: 'Twinipix',
+    //         message: this.translate.instant( 'invite.doYourQuizz', { name: friend.name } ),
+    //         to: friend.id
+    //     }, response => console.log( response ))
+    // }
 
     gotoProfile( friend: RankingFriend ) {
         this.storage.save( 'profile', friend )
@@ -162,14 +178,18 @@ export class RankingComponent implements OnInit, OnDestroy {
             }
 
             if ( endFriendIndex - this.startFriendsIndex < this.friendsPerPage - 1 ) {
-                this.startFriendsIndex = null
-                this.getNextInvitableFriendsPage( endFriendIndex - this.startFriendsIndex + 1 )
+                this.friends = this.allFriends
+                // this.startFriendsIndex = null
+                // this.getNextInvitableFriendsPage( endFriendIndex - this.startFriendsIndex + 1 )
             } else {
                 this.startFriendsIndex = endFriendIndex + 1
-                this.toggleLoading( 'disable' )
+                // this.toggleLoading( 'disable' )
             }
+
+            this.toggleLoading( 'disable' )
         } else {
-            this.getNextInvitableFriendsPage()
+            // this.getNextInvitableFriendsPage()
+            this.toggleLoading( 'disable' )
         }
     }
 
